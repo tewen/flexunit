@@ -6,19 +6,7 @@ package tests.flex.lang.metadata.metaDataAnnotation {
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 
-	public class ValidDataForAnnotation {
-		/*
-		<variable name="myArray" type="Array">
-		<metadata name="ArrayElementType">
-			<arg key="" value="int"/>
-		</metadata>
-		<metadata name="__go_to_definition_help">
-		<arg key="file" value="C:\github\flexunit.git\FlexUnit4Test\src\tests\flex\lang\field\ValidVariableField.as"/>
-		<arg key="pos" value="5301"/>
-		</metadata>
-		</variable>
-		*/			
-
+	public class AnnotationWithValidData {
 		[Test]
 		public function shouldReturnName():void {
 			var xml:XML = <metadata name="annotationName"/>; 

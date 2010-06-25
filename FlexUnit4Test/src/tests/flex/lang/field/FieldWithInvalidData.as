@@ -6,7 +6,7 @@ package tests.flex.lang.field {
 	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertNull;
 
-	public class InvalidDataForField {
+	public class FieldWithInvalidData {
 
 		[Test(expects="ArgumentError")]
 		public function shouldThrowErrorConstructingWithoutDeclaringClass():void {

@@ -5,7 +5,7 @@ package tests.flex.lang.metadata.metaDataArgument {
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNull;
 
-	public class InvalidDataForArgument {
+	public class ArgumentWithInvalidData {
 
 		[Test(expects="ArgumentError")]
 		public function shouldThrowError():void {

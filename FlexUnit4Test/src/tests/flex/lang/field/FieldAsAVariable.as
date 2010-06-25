@@ -11,7 +11,7 @@ package tests.flex.lang.field {
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 	
-	public class ValidDataVariableField {
+	public class FieldAsAVariable {
 
 		[Test]
 		public function shouldReturnFalseWhenVariable():void {

@@ -7,7 +7,7 @@ package tests.flex.lang.metadata.metaDataAnnotation {
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
 
-	public class InvalidDataForAnnotations {
+	public class AnnotationWithInvalidData {
 
 		[Test(expects="ArgumentError")]
 		public function shouldThrowError():void {

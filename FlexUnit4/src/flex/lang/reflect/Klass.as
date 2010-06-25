@@ -331,8 +331,8 @@ package flex.lang.reflect {
 			var stringName:String = getDotPathFromName( name );
 
 			//We also need to check if it extends from object.  If so, it does not have any other
-			//superclass.
-			if ( stringName == "void" || stringName == "*" || stringName == "Object" ) {
+			//superclass. //|| stringName == "Object"
+			if ( stringName == "void" || stringName == "*" ) {
 			//if ( stringName == "void" || stringName == "*" ) {
 				return null;
 			}

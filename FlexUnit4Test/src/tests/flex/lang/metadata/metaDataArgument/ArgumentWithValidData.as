@@ -5,7 +5,7 @@ package tests.flex.lang.metadata.metaDataArgument {
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertTrue;
 
-	public class ValidDataForArgument {
+	public class ArgumentWithValidData {
 		[Test]
 		public function shouldReturnKey():void {
 			var xml:XML = <arg key="theKey" value="theValue"/>; 

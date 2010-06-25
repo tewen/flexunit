@@ -223,6 +223,49 @@ package flex.lang.reflect {
 		}
 
 		/**
+		 * Compares two Field instances for equality
+		 * 
+		 * @return Returns boolean indicating equality
+		 * 
+		 */
+		public function equals( item:Field ):Boolean {
+			if ( !item ) {
+				return false;
+			}
+			
+			var equiv:Boolean = ( ( this.name == item.name ) && 
+				                  ( this.type == item.type ) &&
+								  ( this.isStatic == item.isStatic ) &&
+								  ( this.isProperty == item.isProperty ) &&
+								  ( this.definedBy == item.definedBy ) );
+
+			var localMetaData:Array = this.metadata;
+			var remoteMetaData:Array = item.metadata;
+			
+			if ( equiv ) {
+				var localLen:int = localMetaData?localMetaData.length:0;
+				var remoteLen:int = remoteMetaData?remoteMetaData.length:0;
+				
+				if ( localLen != remoteLen ) {
+					return false;
+				}
+				
+				if ( localLen > 0) {
+					for ( var i:int=0; i<localLen; i++ ) {
+						var localMeta:MetaDataAnnotation = localMetaData[ i ];
+						var remoteMeta:MetaDataAnnotation = remoteMetaData[ i ];
+						
+						equiv = localMeta.equals( remoteMeta );
+						if (!equiv) {
+							break;
+						}
+					}
+				}
+			}
+			
+			return equiv;
+		}		
+		/**
 		 * <code>Field</code> Constructor
 		 *
 		 * @param fieldXML XML that describes the <code>Field</code> to be created

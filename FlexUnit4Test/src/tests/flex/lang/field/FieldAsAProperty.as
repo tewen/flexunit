@@ -4,7 +4,7 @@ package tests.flex.lang.field {
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertTrue;
 
-	public class ValidDataPropertyField {
+	public class FieldAsAProperty {
 
 		[Test]
 		public function shouldReturnTrueWhenProperty():void {
