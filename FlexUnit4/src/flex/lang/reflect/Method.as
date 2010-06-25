@@ -330,10 +330,11 @@ package flex.lang.reflect {
 		 * object wrapper for Methods
 		 * 
 		 * Expected format of the argument is
-		 * 		<metadata name="metaDataParam">
-		 * 			<arg key="someKey" value="someValue"/>
-		 * 			<arg key="someKey" value="someValue"/>
-		 * 		</metadata>
+		 *     <method name="someMethod" declaredBy="tests::SomeClass" returnType="void">
+		 * 		 <metadata name="Before">
+		 * 			<arg key="order" value="2"/>
+		 * 		 </metadata>
+		 * 	   </method>
 		 * 
 		 * @param A <metadata/> XML node.
 		 * 
