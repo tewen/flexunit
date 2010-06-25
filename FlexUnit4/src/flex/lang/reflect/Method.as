@@ -32,9 +32,8 @@ package flex.lang.reflect {
 	import org.flexunit.constants.AnnotationConstants;
 	
 	/**
-	 * Used to create XML style methods for use with FlexUnit
-	 * These XML "methods" are then run through the associated
-	 * apply/invoke call and allowing FlexUnit to pull the results
+	 * An object representing a method of a class or instance. You can invoke
+	 * the method as well as inspect its metadata. 
 	 */
 	public class Method {
 		/**
@@ -78,7 +77,8 @@ package flex.lang.reflect {
 		private var _elementType:Class;
 
 		/**
-		 * Returns the <code>Method</code> metadata.
+		 * Returns an array of <code>MetaDataAnnotation</code> instances associated with this
+		 * <code>Method</code>.
 		 */
 		public function get metadata():Array {
 			if ( !_metaData ) {
@@ -95,7 +95,7 @@ package flex.lang.reflect {
 		}
 
 		/**
-		 * Returns the <code>Method</code> XML
+		 * Returns the XML used to build this <code>Method</code>
 		 */
 		public function get methodXML():XML {
 			return _methodXML;
@@ -325,10 +325,18 @@ package flex.lang.reflect {
 			return newMethod;
 		}
 		/**
-		 * <code>Method</code> Constructor
+		 * Constructor 
+		 * Parses <method/> nodes returned from a call to <code>describeType</code> to provide an 
+		 * object wrapper for Methods
 		 * 
-		 * @param methodXML XML of the method to create
-		 * @param isStatic specifies whether the method is static or not
+		 * Expected format of the argument is
+		 * 		<metadata name="metaDataParam">
+		 * 			<arg key="someKey" value="someValue"/>
+		 * 			<arg key="someKey" value="someValue"/>
+		 * 		</metadata>
+		 * 
+		 * @param A <metadata/> XML node.
+		 * 
 		 */
 		public function Method( methodXML:XML, isStatic:Boolean=false ) {
 			_methodXML = methodXML;

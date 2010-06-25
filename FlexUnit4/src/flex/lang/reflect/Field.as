@@ -31,9 +31,8 @@ package flex.lang.reflect {
 	import org.flexunit.constants.AnnotationConstants;
 	
 	/**
-	 * Helper class designed to break down individual XML variables to ease processing in
-	 * FlexUnit.  Fields consist of the fieldXML, the class defining the field, the variable type
-	 * of the field, any metadata associated with the field and the name of the field.
+	 * An object representing a property or variable of a class or instance. You can gain access to the
+	 * value of the field as well as inspect its metadata. 
 	 */
 	public class Field {
 		/**
@@ -80,30 +79,48 @@ package flex.lang.reflect {
 		 */
 		private var _isProperty:Boolean;
 		/**
-		 * Returns whether the <code>Field</code> is a property.
+		 * Returns whether the <code>Field</code> is a property. Fields are either 
+		 * properties (getter/setters) or variables.
+		 * 
 		 */
 		public function get isProperty():Boolean {
 			return _isProperty;
 		}
 		
+		/**
+		 * Returns the Class that defines this field.
+		 *  
+		 * @return a Class. 
+		 * 
+		 */		
 		public function get definedBy():Class {
 			return _definedBy;
 		}
 		
 		/**
-		 * Retrieves the Class associated with the object specified by the field name.
-		 *   If a null paramater is passed will instead retrieve the field defined by the field name
-		 * will instead return the Class defined by this field.
+		 * Retrieves the actual field represented by this Field object within the instance or class 
+		 * where it exists. 
 		 * 
-		 * @param obj The object
-		 * @return An object specified by name else the
+		 * If an object is passed, then this field is returned from that object instance. 
+		 * 
+		 * If a null argument is passed and the field is static, then the field is treated as static and
+		 * returned from the class. 
+		 * 
+		 * If a null argument is passed and the field is NOT static, then an error is thrown.
+		 * 
+		 * @param obj An instance where the field exists
+		 * @return The object represented by this Field within the specified object or class. 
 		 */
-		public function getObj( obj:Object ):Object {
-			if ( obj == null ) {
+		public function getObj( obj:Object=null ):Object {
+			if ( isStatic && ( obj == null ) ) {
 				return _definedBy[ name ];
-			} else {
-				return obj[ name ];				
+			} 
+
+			if ( !isStatic && ( obj != null ) ) {
+				return obj[ name ];
 			}
+
+			throw new ArgumentError( "Attempting to access inaccessible field on object or class." );
 		}
 		
 		/**
@@ -119,11 +136,11 @@ package flex.lang.reflect {
 				//we are an array at least, so let's go further;
 				var meta:String = metaDataAnnotation.defaultArgument.key;
 				
-				//TODO : Shouldn't this throw an error rather than tracing it?
 				try {
 					_elementType = Klass.getClassFromName( meta );
 				} catch ( error:Error ) {
-					trace("Cannot find specified ArrayElementType("+meta+") in SWF");
+					_elementType = null;
+					//trace("Cannot find specified ArrayElementType("+meta+") in SWF");
 				}
 					
 			}
@@ -194,7 +211,13 @@ package flex.lang.reflect {
 		 */
 		public function get type():Class {
 			if (!_type) {
-				_type = Klass.getClassFromName( _fieldXML.@type );
+				var strType:String = _fieldXML.@type;
+				
+				if ( strType.length > 0 ) {
+					_type = Klass.getClassFromName( strType );
+				} else {
+					throw new TypeError("Unknown Type");
+				}
 			}
 			return _type;
 		}
@@ -208,6 +231,14 @@ package flex.lang.reflect {
 		 * @param isProperty <code>true</code> if the <code>Field</code> is a property, else <code>false</code>
 		 */
 		public function Field( fieldXML:XML, isStatic:Boolean, definedBy:Class, isProperty:Boolean ) {
+			if ( !fieldXML ) {
+				throw new ArgumentError("Valid XML must be provided to Field Constructor");
+			}
+
+			if ( !definedBy ) {
+				throw new ArgumentError("Invalid owning class passed to Field Constructor");
+			}
+			
 			_fieldXML = fieldXML;
 			_name = fieldXML.@name;		
 			_isStatic = isStatic;	
