@@ -2,18 +2,16 @@ package org.flexunit.async.cases
 {
 	import org.flexunit.async.Async;
 	import org.flexunit.async.AsyncLocator;
-	import org.flexunit.async.mocks.EventDispatcherMock;
-	import org.flexunit.async.mocks.ResponderMock;
-	import org.flexunit.internals.runners.statements.mock.AsyncHandlingStatementMock;
+	import org.flexunit.internals.runners.statements.ExpectAsync;
 
 	public class AsyncASCase
 	{
-		protected var asyncHandlingStatementMock:AsyncHandlingStatementMock;
+		[Mock(type="strict")]
+		public var asyncHandlingStatementMock:ExpectAsync;
 		protected var testCase:Object;
 		
 		[Before(description="Prepare the environment for the Async test")]
 		public function setUp():void {
-			asyncHandlingStatementMock = new AsyncHandlingStatementMock();
 			testCase = new Object();
 			
 			AsyncLocator.registerStatementForTest(asyncHandlingStatementMock, testCase);
