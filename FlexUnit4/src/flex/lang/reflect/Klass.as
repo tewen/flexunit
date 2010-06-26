@@ -70,7 +70,7 @@ package flex.lang.reflect {
 		private var _name:String;
 		
 		/**
-		 * Returns the <code>String</code> name of the <code>Class</code>
+		 * Returns the name of the <code>Class</code>
 		 * 
 		 * @return name of the class
 		 */
@@ -84,9 +84,9 @@ package flex.lang.reflect {
 		private var _metaData:Array;
 		
 		/**
-		 * Returns an <code>XMLList</code> of metadata contained in the Class
+		 * Returns an Array of MetaDataAnnotation instances decorating the Class
 		 * 
-		 * @return metadata contained in the Class
+		 * @return an array of MetaDataAnnotation instances
 		 */
 		public function get metadata():Array {
 			if ( !_metaData ) {
@@ -109,7 +109,7 @@ package flex.lang.reflect {
 		private var _constructor:Constructor;
 		
 		/**
-		 * Returns the constructor of the class as a <code>Constructor</code>
+		 * Returns a <code>Constructor</code> instance that represents the constructor for this class.
 		 * 
 		 * @see Constructor
 		 */
@@ -145,9 +145,10 @@ package flex.lang.reflect {
 		private var _fields:Array;
 		
 		/**
-		 * Returns an Array of elements where each element is of type <code>Field</code>
+		 * Returns an Array of <code>Field</code> instances representing the individual static 
+		 * and instance properties and variables of the class. 
 		 * 
-		 * @return an Array of <code>Field</code> contained in the Class
+		 * @return an Array of <code>Field</code> instances
 		 * @see Field
 		 */
 		public function get fields():Array {
@@ -159,7 +160,7 @@ package flex.lang.reflect {
 		}
 
 		/**
-		 * Returns the <code>Method</code> which matches the <code>String</code> paramater
+		 * Returns the <code>Method</code> instance with the provided name.
 		 * 
 		 * @param name the name of the <code>Method</code>
 		 * @see Method
@@ -180,10 +181,10 @@ package flex.lang.reflect {
 		private var _methods:Array;
 		
 		/**
-		 * Returns a list of all methods contained in the class as an
-		 * Array whose elements are of type <code>Method</code>
+		 * Returns an Array of <code>Method</code> instances representing the static and instance
+		 * methods of this class.
 		 * 
-		 * @return <code>Method</code>s in the class
+		 * @return an Array of <code>Method</code> instances
 		 * 
 		 * @see Method
 		 */
@@ -194,14 +195,13 @@ package flex.lang.reflect {
 			return _methods;
 		}
 
-		//TODO: 10/21/09 - interfaces implemented.
 		/**
 		 * @private
 		 */
 		private var _interfaces:Array;
 		
 		/**
-		 * Returns an <code>Array</code> of all interfaces as <code>Class</code> definitions 
+		 * Returns an <code>Array</code> of Class objects representing each interfaces 
 		 * implemented by the <code>Class</code>
 		 * 
 		 * @return <code>Interface</code>s implemented by the Class
@@ -258,7 +258,13 @@ package flex.lang.reflect {
 		 */
 		private var _inheritance:Array;
 
-
+		/**
+		 * Returns an array of classes representing each super class in the chain between the 
+		 * current class and <code>Object</code>.
+		 *  
+		 * @return an Array of classes  
+		 * 
+		 */
 		public function get classInheritance():Array {
 
 			if ( !_inheritance ) {
@@ -267,6 +273,7 @@ package flex.lang.reflect {
 			
 			return _inheritance;
 		}
+
 		/**
 		 * Returns the super class.
 		 */
@@ -288,12 +295,11 @@ package flex.lang.reflect {
 		}
 		
 		/**
-		 * Tests whether the class extends from the paramater class
+		 * Tests whether the class extends from the specified class
 		 * 
 		 * @param clazz the class to test against
 		 * 
-		 * @return <code>true</code> if the class does extend from the paramater class,
-		 *  <code>false</code> otherwise.
+		 * @return <code>true</code> if the class extends from the specified class
 		 */
 		public function descendsFrom( clazz:Class ):Boolean {
 			var className:String = getQualifiedClassName( clazz );	
@@ -312,14 +318,15 @@ package flex.lang.reflect {
 		}
 
 		/**
-		 * Static method.  Returns the <code>Class</code> defined by the paramater name
+		 * Static method.  Returns the <code>Class</code> defined by the provided name
 		 * 
-		 * @param name of the class definition needed
+		 * @param name of the class definition needed in package.subpackage::Class format.
 		 * 
 		 * @return <code>Class</code> definition if found, <code>null</code> if not found.
 		 */
 		public static function getClassFromName( name:String ):Class {
 			var stringName:String = getDotPathFromName( name );
+			var resolvedClass:Class;
 
 			//We also need to check if it extends from object.  If so, it does not have any other
 			//superclass. //|| stringName == "Object"
@@ -328,7 +335,14 @@ package flex.lang.reflect {
 				return null;
 			}
 
-			return getDefinitionByName( stringName ) as Class;
+			try {
+				resolvedClass = getDefinitionByName( stringName ) as Class; 	
+			}
+			catch (e:Error) {
+				resolvedClass = null;
+			}
+			
+			return resolvedClass;
 		}
 		
 		/**
@@ -346,11 +360,7 @@ package flex.lang.reflect {
 			}
 
 			var staticMethodList:XMLList = new XMLList();		
-			
-			//TODO: XMLList( calssXML).length can never be 0 or less, an error would be thrown during construction if so
-			//if ( XMLList( classXML ).length() > 0 ) {
-				staticMethodList = MetadataTools.getMethodsList( classXML );
-			//}
+			staticMethodList = MetadataTools.getMethodsList( classXML );
 
 			for ( var j:int=0; j<staticMethodList.length(); j++ ) {
 				methods.push( new Method( staticMethodList[ j ], true ) );
@@ -367,17 +377,11 @@ package flex.lang.reflect {
 			var metaDataList:XMLList;			
 
 			if ( classXML.factory && classXML.factory[ 0 ] ) {
-				try {
-					metaDataList = MetadataTools.nodeMetaData( classXML.factory[ 0 ] );
-					if ( metaDataList ) {
-						for ( var i:int=0; i<metaDataList.length(); i++ ) {
-							metaDataAr.push( new MetaDataAnnotation( metaDataList[ i ] ) );
-						}
+				metaDataList = MetadataTools.nodeMetaData( classXML.factory[ 0 ] );
+				if ( metaDataList ) {
+					for ( var i:int=0; i<metaDataList.length(); i++ ) {
+						metaDataAr.push( new MetaDataAnnotation( metaDataList[ i ] ) );
 					}
-				}
-			
-				catch ( e:Error ) {
-					trace("YOOOOOOOOOOOOOOO");
 				}
 			}			
 			
@@ -418,7 +422,6 @@ package flex.lang.reflect {
 			return fields;
 		}
 		
-		//TODO: helper method to build the interface lists
 		/**
 		 * @private
 		 */
@@ -434,6 +437,14 @@ package flex.lang.reflect {
 			return implement;
 		}
 		
+		/**
+		 * Tests whether the class implements a provided interface
+		 *  
+		 * @param interfaceRef The interface to test against
+		 * 
+		 * @return true if the class implements the interface 
+		 * 
+		 */
 		public function implementsInterface( interfaceRef:Class ):Boolean {
 			var interfaces:Array = interfaces;
 			var found:Boolean = false;
@@ -449,23 +460,23 @@ package flex.lang.reflect {
 		} 
 
 		/**
-		 * Tests if the class defined by the name paramater has any metadata
+		 * Checks for the existance of a metadata annotation using the annotation's name
 		 * 
-		 * @param name of the Class
+		 * @param name the name of the annotation
+		 * @return Returns true if the annotation exists, false if it does not.
 		 * 
-		 * @return <code>true</code> if the class has metadata, else
-		 * <code>false</code>
+		 * @see #getMetaData()
 		 */
 		public function hasMetaData( name:String ):Boolean {
 			return ( getMetaData( name ) != null );
 		}
 		
 		/**
-		 * Retrieves the value of any metadata matching the name.
+		 * Returns the MetaDataAnnotation associated with a given annotation using the annotation's name
+		 *  
+		 * @param name the name of the annotation
+		 * @return the MetaDataAnnotation instance for the annotation name, or null if it was not found.
 		 * 
-		 * @param name of the metadata
-		 * 
-		 * @return value of metadata if found.  
 		 */
 		public function getMetaData( name:String ):MetaDataAnnotation {
 			var len:int = metadata.length;

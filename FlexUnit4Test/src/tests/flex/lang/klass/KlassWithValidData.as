@@ -43,7 +43,7 @@ package tests.flex.lang.klass {
 		}
 
 		[Test]
-		public function shouldFindConstructor():void {
+		public function shouldFindConstructorWithTwoParams():void {
 			var constructor:Constructor = klass.constructor;
 			assertNotNull( constructor );
 			assertNotNull( constructor.parameterTypes );
@@ -52,7 +52,7 @@ package tests.flex.lang.klass {
 		}
 
 		[Test]
-		public function shouldFindCorrectNumberOfFields():void {
+		public function shouldFindSixFields():void {
 			var fields:Array = klass.fields;
 
 			assertNotNull( fields );
@@ -60,7 +60,7 @@ package tests.flex.lang.klass {
 		}
 
 		[Test]
-		public function shouldFindCorrectNumberOfMethods():void {
+		public function shouldFindTwoMethods():void {
 			var methods:Array = klass.methods;
 			
 			assertNotNull( methods );
@@ -158,7 +158,40 @@ package tests.flex.lang.klass {
 		public function shouldNotGetApeMetaData():void {
 			var annotation:MetaDataAnnotation = klass.getMetaData( "Ape" ); 
 			assertNull( annotation );
-		}				
+		}		
+		
+		[Test]
+		public function shouldFindASingleInterface():void {
+			var interfaces:Array = klass.interfaces; 
+
+			assertNotNull( interfaces );
+			assertEquals( 1, interfaces.length );
+		}		
+
+		[Test]
+		public function shouldFindThreeeClassesInInheritance():void {
+			var classes:Array = klass.classInheritance; 
+			
+			assertNotNull( classes );
+			assertEquals( 3, classes.length );
+		}		
+
+		[Test]
+		public function shouldGetClassFromDotColonName():void {
+			var clazz:Class = Klass.getClassFromName( "tests.flex.lang.klass.helper::ClassForIntrospection" );
+			
+			assertNotNull( clazz );
+			assertEquals( ClassForIntrospection, clazz );
+		}		
+
+		[Test]
+		public function shouldNotGetClassFromWrongDotColonName():void {
+			var clazz:Class = Klass.getClassFromName( "tests.flex.lang.klass.helper::SomeIntro" );
+			
+			assertNull( clazz );
+		}		
+
+
 
 /*		[Test]
 		   I don't know that we will ever be able to put this test back in.
