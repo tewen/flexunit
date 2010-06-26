@@ -281,19 +281,10 @@ package flex.lang.reflect {
 		}
 
 		/**
-		 * @private
-		 */
-		private var _classDef:Class;
-		
-		/**
 		 * Returns the <code>Class</code> definition
 		 */
 		public function get classDef():Class {
-			if ( !_classDef ) {
-				_classDef = getClassFromName( name );
-			}
-			
-			return _classDef;
+			return asClass;
 		}
 		
 		/**

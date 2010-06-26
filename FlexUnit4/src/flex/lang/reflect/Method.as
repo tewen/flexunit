@@ -120,7 +120,7 @@ package flex.lang.reflect {
 		} 
 		
 		/**
-		 * Returns the <code>Method</code> paramater types as an array.
+		 * Returns the <code>Method</code> parameter types as an array.
 		 */
 		public function get parameterTypes():Array {
 			if ( !_parameterTypes ) {
@@ -149,24 +149,23 @@ package flex.lang.reflect {
 		}
 
 		/**
-		 * Tests if the <code>Method</code> has the paramater metadata
+		 * Checks for the existance of a metadata annotation using the annotation's name
 		 * 
-		 * @param name of the metadata
+		 * @param name the name of the annotation
+		 * @return Returns true if the annotation exists, false if it does not.
 		 * 
-		 * @return <code>true</code> if found, else <code>false</code>
+		 * @see #getMetaData()
 		 */
 		public function hasMetaData( name:String ):Boolean {
 			return ( getMetaData( name ) != null );
 		}
 		
 		/**
-		 * Retrieves the value of the metadata defined by the paramater name with the paramater key.
-		 * If key is left blank, will match the first metadata with the paramater name
+		 * Returns the MetaDataAnnotation associated with a given annotation using the annotation's name
+		 *  
+		 * @param name the name of the annotation
+		 * @return the MetaDataAnnotation instance for the annotation name, or null if it was not found.
 		 * 
-		 * @param name of the metadata
-		 * @param key matching the name (<code>null</code> ok)
-		 * 
-		 * @return value of the metadata
 		 */
 		public function getMetaData( name:String ):MetaDataAnnotation {
 			var metadataAr:Array = metadata;
@@ -231,7 +230,7 @@ package flex.lang.reflect {
 		 * @param obj the item to call
 		 * @param argArray the paramaters to call with apply, if any
 		 * 
-		 * @return normal return value of the method
+		 * @return return value of the method
 		 * 
 		 * @see #invoke()
 		 */
@@ -254,7 +253,7 @@ package flex.lang.reflect {
 		 * @param obj the item to call
 		 * @param args the paramaters to call with apply, if any
 		 * 
-		 * @return normal return value of the method
+		 * @return return value of the method
 		 * @see #apply()
 		 */
 		public function invoke( obj:Object, ...args ):Object {

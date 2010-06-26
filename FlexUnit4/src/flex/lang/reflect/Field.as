@@ -149,7 +149,7 @@ package flex.lang.reflect {
 		}
 
 		/**
-		 * Retrieves the metadata of the <code>Field</code>
+		 * Retrieves an array of MetaDataAnnotation instances associated with the <code>Field</code>
 		 */
 		public function get metadata():Array {
 			if ( !_metaData ) {
@@ -166,25 +166,23 @@ package flex.lang.reflect {
 		}
 		
 		/**
-		 * Tests whether the <code>Field</code> has the metadata specified by <code>name</code>
+		 * Checks for the existance of a metadata annotation using the annotation's name
 		 * 
-		 * @param name Name of the requested metadata
+		 * @param name the name of the annotation
+		 * @return Returns true if the annotation exists, false if it does not.
 		 * 
-		 * @return <code>true</code> if <code>Field</code> has the metadata, else <code>false</code>.
+		 * @see #getMetaData()
 		 */
 		public function hasMetaData( name:String ):Boolean {
 			return ( getMetaData( name ) != null );
 		}
 		
 		/**
-		 * Retrieves the metadata associated with the <code>Field</code> having the paramater
-		 * name and the paramater key.  If no key is specified, returns the value associated with
-		 * the named metadata
+		 * Returns the MetaDataAnnotation associated with a given annotation using the annotation's name
+		 *  
+		 * @param name the name of the annotation
+		 * @return the MetaDataAnnotation instance for the annotation name, or null if it was not found.
 		 * 
-		 * @param name Name of the requested metadata
-		 * @param key Key matching the name (<code>null</code> ok)
-		 * 
-		 * @return Value of the corresponding metadata
 		 */
 		public function getMetaData( name:String ):MetaDataAnnotation {
 			var metadataAr:Array = metadata;
