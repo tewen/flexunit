@@ -388,24 +388,33 @@ package flex.lang.reflect {
 		 */
 		private function buildFields():Array {
 			var fields:Array = new Array();
-			var fieldList:XMLList = classXML.factory.variable;			
+			var variableList:XMLList = classXML.factory.variable;			
 			
-			for ( var i:int=0; i<fieldList.length(); i++ ) {
-				fields.push( new Field( fieldList[ i ], false, clazz, false ) );
+			for ( var i:int=0; i<variableList.length(); i++ ) {
+				fields.push( new Field( variableList[ i ], false, clazz, false ) );
 			}
 
-			var staticFieldList:XMLList = classXML.variable;			
+			var staticVariableList:XMLList = classXML.variable;			
 
-			for ( var j:int=0; j<staticFieldList.length(); j++ ) {
-				fields.push( new Field( staticFieldList[ j ], true, clazz, false ) );
+			for ( var j:int=0; j<staticVariableList.length(); j++ ) {
+				fields.push( new Field( staticVariableList[ j ], true, clazz, false ) );
 			}
 			
-			var propertyFieldList:XMLList = classXML.factory.accessor;			
+			var propertyList:XMLList = classXML.factory.accessor;			
 
-			for ( var k:int=0; k<propertyFieldList.length(); k++ ) {
-				fields.push( new Field( propertyFieldList[ k ], true, clazz, true ) );
+			for ( var k:int=0; k<propertyList.length(); k++ ) {
+				fields.push( new Field( propertyList[ k ], true, clazz, true ) );
 			}
 
+			var staticPropertyList:XMLList = classXML.accessor;			
+			
+			for ( var l:int=0; l<staticPropertyList.length(); l++ ) {
+				//we need to exclude the prototype accessor
+				if ( staticPropertyList[ l ].@name != 'prototype' ) {
+					fields.push( new Field( staticPropertyList[ l ], true, clazz, true ) );
+				}
+			}
+			
 			return fields;
 		}
 		

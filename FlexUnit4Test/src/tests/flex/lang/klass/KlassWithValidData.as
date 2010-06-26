@@ -39,7 +39,7 @@ package tests.flex.lang.klass {
 
 		[Test]
 		public function shouldReturnName():void {
-			assertEquals( "ClassForIntrospection", klass.name );
+			assertEquals( "tests.flex.lang.klass.helper::ClassForIntrospection", klass.name );
 		}
 
 		[Test]
@@ -56,7 +56,7 @@ package tests.flex.lang.klass {
 			var fields:Array = klass.fields;
 
 			assertNotNull( fields );
-			assertEquals( 3, fields.length );
+			assertEquals( 6, fields.length );
 		}
 
 		[Test]
@@ -95,7 +95,7 @@ package tests.flex.lang.klass {
 
 		[Test]
 		public function shouldReturnPackageName():void {
-			assertEquals( "tests.flex.lang.klass", klass.packageName );
+			assertEquals( "tests.flex.lang.klass.helper", klass.packageName );
 		}		
 
 		[Test]
@@ -160,11 +160,15 @@ package tests.flex.lang.klass {
 			assertNull( annotation );
 		}				
 
-		[Test]
+/*		[Test]
+		   I don't know that we will ever be able to put this test back in.
+		   Our good friends at Adobe pollute the methods with tons of metadata
+		   when in debug mode. So, this test performs differenty when debugging in
+		   flash builder than runtime 
 		public function shouldGetCorrectMetaDataCount():void {
 			var annotations:Array = klass.metadata; 
 			assertNotNull( annotations );
 			assertEquals( 1, annotations.length );
-		}
+		}*/
 	}
 }
