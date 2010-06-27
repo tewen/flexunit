@@ -22,12 +22,5 @@ package org.flexunit.internals.runners
 		//Suites
 		public var internalRunnersModelSuite:InternalRunnersModelSuite;
 		public var internalRunnersStatementSuite:InternalRunnersStatmentsSuite;
-		
-		//Not yet Implemented		
-		public var failedBeforeCase:FailedBeforeCase;		
-		public var classRoadieCase:ClassRoadieCase;		
-		public var methodRoadieCase:MethodRoadieCase;		
-		public var methodValidatorCase:MethodValidatorCase;		
-		public var testMethodCase:TestMethodCase;	
 	}
 }

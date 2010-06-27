@@ -10,8 +10,5 @@ package org.flexunit.experimental
 	{
 		public var experimentalRunnersSuite:ExperimentalRunnersSuite;
 		public var experimentalTheoriesSuite:ExperimentalTheoriesSuite;
-		
-		//Not yet implemented
-		public var expirementalResultsSuite : ExperimentalResultsSuite;
 	}
 }

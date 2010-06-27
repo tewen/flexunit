@@ -19,10 +19,5 @@ package org.flexunit.internals
 		
 		public var executionCompletionEvent:ExecutionCompleteEventCase;
 		public var traceListenerCase:TraceListenerCase;
-		
-		//Not yet implemented
-		public var arrayComparisonFailureCase:ArrayComparisonFailureCase;
-		public var flexUnitSystemCase:FlexUnitSystemCase;
-		public var realSystemCase:RealSystemCase;
 	}
 }

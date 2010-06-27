@@ -8,11 +8,11 @@ package org.flexunit
 	import org.flexunit.asserts.cases.assertTrueCase;
 	import org.flexunit.asserts.cases.failCase;
 	import org.flexunit.async.AsyncSuite;
-	import org.flexunit.cases.AssertCase;
-	import org.flexunit.cases.AssertThatCase;
-	import org.flexunit.cases.AssertionErrorCase;
-	import org.flexunit.cases.AssumeCase;
-	import org.flexunit.cases.AssumeThatCase;
+	import tests.org.flexunit.assert.AssertCase;
+	import tests.org.flexunit.assert.that.AssertThatCase;
+	import tests.org.flexunit.assert.error.AssertionErrorCase;
+	import tests.org.flexunit.assert.assumption.AssumeCase;
+	import tests.org.flexunit.assert.assumption.AssumeThatCase;
 	import org.flexunit.cases.ComparisonFailureCase;
 
 	import org.flexunit.events.EventsSuite;
@@ -54,8 +54,5 @@ package org.flexunit
 		public var assertStrictlyEqualsAliasCase:assertStrictlyEqualsCase;
 		public var assertTrueAliasCase:assertTrueCase;
 		public var failAliasCase:failCase;
-		
-		//Cases not yet implemented
-		public var comparisonFailureCase:ComparisonFailureCase;
 	}
 }
