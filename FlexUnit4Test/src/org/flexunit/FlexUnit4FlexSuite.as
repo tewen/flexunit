@@ -5,7 +5,7 @@ package org.flexunit
 	import org.flexunit.async.cases.AsyncFlexCase;
 	import org.flexunit.async.cases.AsyncTestResponderCase;
 	import org.flexunit.async.cases.TestResponderCase;
-	import org.flexunit.events.cases.AsyncResponseEventCase;
+	import tests.org.flexunit.events.cases.AsyncResponseEventCase;
 	import org.flexunit.internals.builders.cases.AllDefaultPossibilitiesBuilderFlexCase;
 	import org.flexunit.internals.cases.TextListenerCase;
 	import org.flexunit.reporting.cases.FailureFormatterFlexCase;

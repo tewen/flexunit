@@ -15,7 +15,7 @@ package org.flexunit
 	import tests.org.flexunit.assert.assumption.AssumeThatCase;
 	import org.flexunit.cases.ComparisonFailureCase;
 
-	import org.flexunit.events.EventsSuite;
+	import tests.org.flexunit.events.EventsSuite;
 	import org.flexunit.experimental.ExperimentSuite;
 	import org.flexunit.internals.InternalsSuite;
 	import org.flexunit.reporting.ReportingSuite;
