@@ -21,8 +21,8 @@ package org.flexunit
 	import org.flexunit.reporting.ReportingSuite;
 	import org.flexunit.runner.RunnerSuite;
 	import org.flexunit.runners.RunnersSuite;
-	import org.flexunit.token.TokenSuite;
-	import org.flexunit.utils.UtilsSuite;
+	import tests.org.flexunit.token.TokenSuite;
+	import tests.org.flexunit.utils.UtilsSuite;
 
 	[Suite]
 	[RunWith("org.flexunit.runners.Suite")]

@@ -85,7 +85,6 @@ package org.flexunit
 		 * @param matcher An expression, built of <code>Matcher</code>s, specifying allowed values.
 		 * 
 		 * @see org.hamcrest.CoreMatchers
-		 * @see org.flexunit.matchers.FlexUnitMatchers
 		 */
 		public static function assumeThat( actual:Object, matcher:Matcher ):void {
 			if (!matcher.matches(actual))

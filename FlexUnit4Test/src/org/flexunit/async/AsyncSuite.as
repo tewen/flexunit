@@ -2,7 +2,7 @@ package org.flexunit.async
 {
 	import org.flexunit.async.cases.AsyncASCase;
 	import org.flexunit.async.cases.AsyncHandlerCase;
-	import org.flexunit.async.cases.AsyncLocatorCase;
+	import tests.org.flexunit.async.AsyncLocatorCase;
 
 	[Suite]
 	[RunWith("org.flexunit.runners.Suite")]

@@ -1,5 +1,4 @@
-package tests.org.flexunit.events
-{
+package tests.org.flexunit.events {
 	import tests.org.flexunit.events.cases.AsyncEventCase;
 	import tests.org.flexunit.events.cases.AsyncResponseEventCase;
 	
