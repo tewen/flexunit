@@ -98,7 +98,6 @@
     <classEntry path="org.flexunit.runner.IRunner"/>
     <classEntry path="org.flexunit.runner.Request"/>
     <classEntry path="org.flexunit.runner.Result"/>
-    <classEntry path="org.flexunit.runner.RunnerLocator"/>
     <classEntry path="org.flexunit.runner.external.ExternalDependencyToken"/>
     <classEntry path="org.flexunit.runner.external.IExternalDependencyData"/>
     <classEntry path="org.flexunit.runner.external.IExternalDependencyLoader"/>
