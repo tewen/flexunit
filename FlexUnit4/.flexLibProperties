@@ -147,6 +147,8 @@
     <classEntry path="org.fluint.uiImpersonation.VisualTestEnvironmentBuilder"/>
     <classEntry path="org.fluint.uiImpersonation.actionScript.ActionScriptEnvironmentBuilder"/>
     <classEntry path="org.fluint.uiImpersonation.actionScript.ActionScriptVisualTestEnvironment"/>
+    <classEntry path="flex.lang.reflect.builders.MethodBuilder"/>
+    <classEntry path="flex.lang.reflect.cache.ClassDataCache"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

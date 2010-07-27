@@ -147,7 +147,7 @@ package flex.lang.reflect {
 			}
 			
 			//Ask the Klass to recache its XML based on the actionscript class definition 
-			_klass.setDefintionForClass( _klass.asClass );
+			_klass.refreshClassXML( _klass.asClass );
 			
 			//I don't think this should be here
 			//var x:XML = describeType( _klass.asClass );

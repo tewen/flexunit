@@ -31,6 +31,8 @@ package flex.lang.reflect {
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	
+	import flex.lang.reflect.builders.MethodBuilder;
+	import flex.lang.reflect.cache.ClassDataCache;
 	import flex.lang.reflect.metadata.MetaDataAnnotation;
 	import flex.lang.reflect.utils.MetadataTools;
 
@@ -190,7 +192,8 @@ package flex.lang.reflect {
 		 */
 		public function get methods():Array {
 			if ( !_methods ) {
-				_methods = buildMethods();
+				var methodBuilder:MethodBuilder = new MethodBuilder( classXML, classInheritance );
+				_methods = methodBuilder.buildAllMethods();
 			}
 			return _methods;
 		}
@@ -233,7 +236,7 @@ package flex.lang.reflect {
 			var className:String;
 			var superArray:Array = new Array();
 
-			//TODO : since type is an attribute of extendsClass, we need to ference it with @
+			//TODO : since type is an attribute of extendsClass, we need to reference it with @
 			//also, since all objects extend from object, we need to be sure we are only
 			//taking the type of the lowest level extend.
 
@@ -345,30 +348,6 @@ package flex.lang.reflect {
 			return resolvedClass;
 		}
 		
-		/**
-		 * @private
-		 */
-		private function buildMethods():Array {
-			var methods:Array = new Array();
-			var methodList:XMLList = new XMLList();			
-			if ( XMLList( classXML.factory ).length() > 0 ) {
-				methodList = MetadataTools.getMethodsList( classXML.factory[ 0 ] );
-			}
-			
-			for ( var i:int=0; i<methodList.length(); i++ ) {
-				methods.push( new Method( methodList[ i ], false ) );
-			}
-
-			var staticMethodList:XMLList = new XMLList();		
-			staticMethodList = MetadataTools.getMethodsList( classXML );
-
-			for ( var j:int=0; j<staticMethodList.length(); j++ ) {
-				methods.push( new Method( staticMethodList[ j ], true ) );
-			}
-
-			return methods;
-		}
-
 		/**
 		 * @private
 		 */
@@ -492,25 +471,10 @@ package flex.lang.reflect {
 		/**
 		 * @internal
 		 */
-		internal function setDefintionForClass( clazz:Class ):void {
-			classXML = cacheAndReturnDefintionForClass( clazz );
+		internal function refreshClassXML( clazz:Class ):void {
+			classXML = ClassDataCache.describeType( clazz, true );
 		}
 
-		/**
-		 * @internal
-		 */
-		internal static function cacheAndReturnDefintionForClass( clazz:Class ):XML {			
-			metaDataCache[ clazz ] = describeType( clazz ); 
-			return getXMLForClass( clazz );
-		} 
-
-		/**
-		 * @internal
-		 */
-		internal static function getXMLForClass( clazz:Class ):XML {
-			return metaDataCache[ clazz ];
-		} 
-		
 		/**
 		 * Klass Constructor
 		 * 
@@ -518,13 +482,9 @@ package flex.lang.reflect {
 		 */ 
 		public function Klass( clazz:Class ) {
 			
-			classXML = getXMLForClass( clazz );
+			classXML = ClassDataCache.describeType( clazz );
 			if ( !classXML ) {
-				if ( clazz ) {
-					classXML = cacheAndReturnDefintionForClass( clazz );
-				} else {
-					classXML = <type/>;
-				}
+				classXML = <type/>;
 			}
 
 			this.clazz = clazz;

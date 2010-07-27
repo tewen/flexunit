@@ -13,6 +13,7 @@ package tests.flex.lang.reflect.klass {
 	import org.flexunit.asserts.assertNotNull;
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.asserts.assertTrue;
+	import org.flexunit.constants.AnnotationConstants;
 	
 	import tests.flex.lang.reflect.klass.helper.Ancestor1;
 	import tests.flex.lang.reflect.klass.helper.Ancestor2;
@@ -60,11 +61,11 @@ package tests.flex.lang.reflect.klass {
 		}
 
 		[Test]
-		public function shouldFindTwoMethods():void {
+		public function shouldFindThreeMethods():void {
 			var methods:Array = klass.methods;
 			
 			assertNotNull( methods );
-			assertEquals( 2, methods.length );
+			assertEquals( 3, methods.length );
 		}
 		
 		[Test]
@@ -191,6 +192,21 @@ package tests.flex.lang.reflect.klass {
 			assertNull( clazz );
 		}		
 
+		[Test]
+		public function shouldFindTestMetaData():void {
+			var method:Method = klass.getMethod( "baseMethod" );
+			var annotation:MetaDataAnnotation = method.getMetaData( AnnotationConstants.TEST );
+			
+			assertNotNull( annotation );
+		}		
+
+		[Test]
+		public function shouldFindSuiteMetaData():void {
+			var method:Method = klass.getMethod( "baseMethod" );
+			var annotation:MetaDataAnnotation = method.getMetaData( AnnotationConstants.SUITE );
+			
+			assertNotNull( annotation );
+		}		
 
 
 /*		[Test]

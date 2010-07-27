@@ -51,6 +51,10 @@ package tests.flex.lang.reflect.klass.helper {
 			return false;
 		}
 		
+		[Suite]
+		override public function baseMethod():void {
+		}
+		
 		public function ClassForIntrospection( a:int, b:String="" )
 		{
 		}
