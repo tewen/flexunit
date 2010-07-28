@@ -6,10 +6,6 @@ package tests.flex.lang.reflect.klass.helper
 		public function baseMethod():void {
 		}
 
-		[Test]
-		public function baseMethod1():void {
-		}
-
 		public function Ancestor2()
 		{
 			super();

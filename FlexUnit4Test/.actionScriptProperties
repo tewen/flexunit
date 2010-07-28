@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="TestRunner.mxml" projectUUID="c0791c78-cb1b-4837-9e08-e5a4373e5714" version="6">
+<actionScriptProperties mainApplicationPath="UIRunner.mxml" projectUUID="c0791c78-cb1b-4837-9e08-e5a4373e5714" version="6">
   <compiler additionalCompilerArguments="-locale en_US -define=CONFIG::useFlexClasses,true" autoRSLOrdering="false" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="1">
-      <libraryPathEntry kind="4" path="">
-        <modifiedEntries>
-          <libraryPathEntry index="3" kind="3" linkType="4" path="${PROJECT_FRAMEWORKS}/libs/framework.swc" useDefaultLinkType="true">
-            <crossDomainRsls>
-              <crossDomainRslEntry autoExtract="true" policyFileUrl="" rslUrl="framework_3.5.0.12683.swz"/>
-              <crossDomainRslEntry autoExtract="true" policyFileUrl="" rslUrl="framework_3.5.0.12683.swf"/>
-            </crossDomainRsls>
-          </libraryPathEntry>
-          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/rpc.swc" useDefaultLinkType="false"/>
-        </modifiedEntries>
-      </libraryPathEntry>
+      <libraryPathEntry kind="4" path=""/>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
       <libraryPathEntry kind="3" linkType="1" path="/FlexUnit4/bin/FlexUnit4.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/FlexUnit4CIListener/bin/FlexUnit4CIListener.swc" useDefaultLinkType="false"/>
@@ -22,8 +12,8 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
+    <application path="FlexUnitCompilerApplication.mxml"/>
     <application path="TestRunner.mxml"/>
-    <application path="FlexUnitApplication.mxml"/>
     <application path="UIRunner.mxml"/>
   </applications>
   <modules/>

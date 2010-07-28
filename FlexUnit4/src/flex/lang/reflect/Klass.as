@@ -31,6 +31,8 @@ package flex.lang.reflect {
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	
+	import flex.lang.reflect.builders.FieldBuilder;
+	import flex.lang.reflect.builders.MetaDataAnnotationBuilder;
 	import flex.lang.reflect.builders.MethodBuilder;
 	import flex.lang.reflect.cache.ClassDataCache;
 	import flex.lang.reflect.metadata.MetaDataAnnotation;
@@ -92,7 +94,8 @@ package flex.lang.reflect {
 		 */
 		public function get metadata():Array {
 			if ( !_metaData ) {
-				_metaData = buildMetaData();
+				var annotationBuilder:MetaDataAnnotationBuilder = new MetaDataAnnotationBuilder( classXML );
+				_metaData = annotationBuilder.buildAllAnnotations();
 			}
 
 			return _metaData;
@@ -155,7 +158,8 @@ package flex.lang.reflect {
 		 */
 		public function get fields():Array {
 			if (!_fields ) {
-				_fields = buildFields();
+				var fieldBuilder:FieldBuilder = new FieldBuilder( classXML, clazz );
+				_fields = fieldBuilder.buildAllFields();
 			}
 
 			return _fields;
@@ -351,59 +355,6 @@ package flex.lang.reflect {
 		/**
 		 * @private
 		 */
-		private function buildMetaData():Array {
-			var metaDataAr:Array = new Array();
-			var metaDataList:XMLList;			
-
-			if ( classXML.factory && classXML.factory[ 0 ] ) {
-				metaDataList = MetadataTools.nodeMetaData( classXML.factory[ 0 ] );
-				if ( metaDataList ) {
-					for ( var i:int=0; i<metaDataList.length(); i++ ) {
-						metaDataAr.push( new MetaDataAnnotation( metaDataList[ i ] ) );
-					}
-				}
-			}			
-			
-			return metaDataAr;
-		}
-		/**
-		 * @private
-		 */
-		private function buildFields():Array {
-			var fields:Array = new Array();
-			var variableList:XMLList = classXML.factory.variable;			
-			
-			for ( var i:int=0; i<variableList.length(); i++ ) {
-				fields.push( new Field( variableList[ i ], false, clazz, false ) );
-			}
-
-			var staticVariableList:XMLList = classXML.variable;			
-
-			for ( var j:int=0; j<staticVariableList.length(); j++ ) {
-				fields.push( new Field( staticVariableList[ j ], true, clazz, false ) );
-			}
-			
-			var propertyList:XMLList = classXML.factory.accessor;			
-
-			for ( var k:int=0; k<propertyList.length(); k++ ) {
-				fields.push( new Field( propertyList[ k ], true, clazz, true ) );
-			}
-
-			var staticPropertyList:XMLList = classXML.accessor;			
-			
-			for ( var l:int=0; l<staticPropertyList.length(); l++ ) {
-				//we need to exclude the prototype accessor
-				if ( staticPropertyList[ l ].@name != 'prototype' ) {
-					fields.push( new Field( staticPropertyList[ l ], true, clazz, true ) );
-				}
-			}
-			
-			return fields;
-		}
-		
-		/**
-		 * @private
-		 */
 		private function retrieveInterfaces():Array {
 			var interfaceList:XMLList = classXML.factory.implementsInterface;
 			var implement:Array = new Array();
@@ -482,7 +433,10 @@ package flex.lang.reflect {
 		 */ 
 		public function Klass( clazz:Class ) {
 			
-			classXML = ClassDataCache.describeType( clazz );
+			if ( clazz ) {
+				classXML = ClassDataCache.describeType( clazz );
+			}
+
 			if ( !classXML ) {
 				classXML = <type/>;
 			}

@@ -1,4 +1,5 @@
 package tests.flex.lang.reflect {
+	import tests.flex.lang.reflect.builders.BuilderSuite;
 	import tests.flex.lang.reflect.constructor.ConstructorSuite;
 	import tests.flex.lang.reflect.field.FieldSuite;
 	import tests.flex.lang.reflect.klass.KlassSuite;
@@ -13,6 +14,7 @@ package tests.flex.lang.reflect {
 		public var methodSuite:MethodSuite;
 		public var constructorSuite:ConstructorSuite;
 		public var klassSuite:KlassSuite;
+		public var builderSuite:BuilderSuite;
 		
 	}
 }

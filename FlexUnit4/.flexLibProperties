@@ -5,6 +5,8 @@
     <classEntry path="flex.lang.reflect.Field"/>
     <classEntry path="flex.lang.reflect.Klass"/>
     <classEntry path="flex.lang.reflect.Method"/>
+    <classEntry path="flex.lang.reflect.builders.MethodBuilder"/>
+    <classEntry path="flex.lang.reflect.cache.ClassDataCache"/>
     <classEntry path="flex.lang.reflect.metadata.MetaDataAnnotation"/>
     <classEntry path="flex.lang.reflect.metadata.MetaDataArgument"/>
     <classEntry path="flex.lang.reflect.utils.MetadataTools"/>
@@ -147,8 +149,8 @@
     <classEntry path="org.fluint.uiImpersonation.VisualTestEnvironmentBuilder"/>
     <classEntry path="org.fluint.uiImpersonation.actionScript.ActionScriptEnvironmentBuilder"/>
     <classEntry path="org.fluint.uiImpersonation.actionScript.ActionScriptVisualTestEnvironment"/>
-    <classEntry path="flex.lang.reflect.builders.MethodBuilder"/>
-    <classEntry path="flex.lang.reflect.cache.ClassDataCache"/>
+    <classEntry path="flex.lang.reflect.builders.FieldBuilder"/>
+    <classEntry path="flex.lang.reflect.builders.MetaDataAnnotationBuilder"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
