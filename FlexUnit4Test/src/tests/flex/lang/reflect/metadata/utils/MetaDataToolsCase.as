@@ -2,78 +2,15 @@ package tests.flex.lang.reflect.metadata.utils
 {
 	import flex.lang.reflect.utils.MetadataTools;
 	
+	import org.flexunit.asserts.assertEquals;
+	import org.flexunit.asserts.assertTrue;
+	import org.flexunit.asserts.assertFalse;
+	import org.flexunit.asserts.assertNull;
+	
 	import org.flexunit.Assert;
 	
 	public class MetaDataToolsCase
-	{
-		[Test(description="Check if class description indicates this class has a base type of 'Class'")]
-		public function check_isClass():void {
-			var descXML:XML = 	<classxml name="MyClass" base="Class" returnType="void"></classxml>;
-			var result:Boolean = MetadataTools.isClass( descXML );
-			Assert.assertTrue( result );
-		}
-		
-		[Test(description="Check if class description indicates this class does not have a base type 'Class'")]
-		public function check_not_isClass():void {
-			var descXML:XML = 	<classxml name="MyClass" base="DescriptionMock" returnType="void"></classxml>;
-			var result:Boolean = MetadataTools.isClass( descXML );
-			Assert.assertFalse( result );
-		}
-		
-		[Test(description="Check if class description indicates this class is not an instance")]
-		public function check_not_isInstance():void {
-			var descXML:XML = 	<classxml name="MyClass" base="Class" returnType="void"></classxml>;
-			var result:Boolean = MetadataTools.isInstance( descXML );
-			Assert.assertFalse( result );
-		}
-		
-		[Test(description="Check if class description indicates this class is not an instance")]
-		public function check_isInstance():void {
-			var descXML:XML = 	<classxml name="MyClass" base="DescriptionMock" returnType="void"></classxml>;
-			var result:Boolean = MetadataTools.isInstance( descXML );
-			Assert.assertTrue( result );
-		}
-		
-		[Test(description="Ensure when description does not describe a class that the correct value is returned from classExtends method")]
-		public function check_classExtends_nonClass_description():void {
-			var descXML:XML = 	<classxml name="MyClass" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
-									<extendsClass type="DescriptionMock" />
-								</classxml>;
-			var result:Boolean = MetadataTools.classExtends( descXML, "DescriptionMock" );
-			Assert.assertTrue( result );
-		}
-		
-		[Test(description="Ensure when description does not describe a class that the correct value is returned from classExtends method")]
-		public function check_classExtends_Class_description():void {
-			var descXML:XML = 	<classxml name="MyClass" base="Class" returnType="void">
-									<factory>
-										<extendsClass type="DescriptionMock" />
-									</factory>
-								</classxml>;
-			var result:Boolean = MetadataTools.classExtends( descXML, "DescriptionMock" );
-			Assert.assertTrue( result );
-		}
-		
-		[Test(description="Ensure when description does not describe a class that the correct value is returned from classImplements method")]
-		public function check_classImplements_nonClass_description():void {
-			var descXML:XML = 	<classxml name="MyClass" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
-									<implementsInterface type="IDescription" />
-								</classxml>;
-			var result:Boolean = MetadataTools.classImplements( descXML, "IDescription" );
-			Assert.assertTrue( result );
-		}
-		
-		[Test(description="Ensure when description describes a class that the correct value is returned from classImplements method")]
-		public function check_classImplements_class_description():void {
-			var descXML:XML = 	<classxml name="MyClass" base="Class" returnType="void">
-									<factory>
-										<implementsInterface type="IDescription" />
-									</factory>
-								</classxml>;
-			var result:Boolean = MetadataTools.classImplements( descXML, "IDescription" );
-			Assert.assertTrue( result );
-		}
-		
+	{				
 		[Test(description="Ensure when description does not describe a class that the correct value is returned from getArgValueFromDescription method")]
 		public function check_getArgValueFromDescription_nonClass_description():void {
 			var descXML:XML = 	<classxml name="MyClass" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
@@ -173,82 +110,7 @@ package tests.flex.lang.reflect.metadata.utils
 			// verify that an empty XMLList is returned
 			Assert.assertEquals( 0, result.length() );
 		}
-		
-		// TODO : Not sure of the xml used here is the correct syntax
-		[Test(description="Ensure we can detect if a class implements an interface")]
-		public function check_class_impements_interface():void {
-			var nodeXML:XML = 	<classxml name="MyClass" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
-									<implementsInterface type="IDescription" />
-								</classxml>;
-			var result:Boolean = MetadataTools.classImpementsNode( nodeXML, "IDescription" );
-			Assert.assertTrue( result );
-			
-		}
-		
-		// TODO : Not sure of the xml used here is the correct syntax
-		[Test(description="Ensure we can detect if a class does not implement an interface")]
-		public function check_class_does_not_implement_interface():void {
-			var nodeXML:XML = 	<classxml name="MyClass" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
-									<implementsInterface type="IDescription" />
-								</classxml>;
-			var result:Boolean = MetadataTools.classImpementsNode( nodeXML, "IDontImpelementAnything" );
-			Assert.assertFalse( result );
-			
-		}
-		
-		// TODO : Not sure of the xml used here is the correct syntax
-		[Test(description="Ensure we can detect if interface node is not passed in with the class xml")]
-		public function check_classxml_contains_no_interface():void {
-			var nodeXML:XML = 	<classxml name="MyClass" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
-								</classxml>;
-			var result:Boolean = MetadataTools.classImpementsNode( nodeXML, "IDontImpelementAnything" );
-			Assert.assertFalse( result );
-		}
-		
-		// TODO : Not sure of the xml used here is the correct syntax
-		[Test(description="Ensure we can detect when classxml is null we aren't detecting that we implement anything")]
-		public function when_classxml_isNull_ensure_class_does_not_implement_anything():void {
-			var result:Boolean = MetadataTools.classImpementsNode( null, "IDontImpelementAnything" );
-			Assert.assertFalse( result );
-		}
-		
-		// TODO : Not sure of the xml used here is the correct syntax
-		[Test(description="Ensure we can detect if a class extends another class")]
-		public function check_class_extends_interface():void {
-			var nodeXML:XML = 	<classxml name="MyClass" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
-									<extendsClass type="DescriptionMock" />
-								</classxml>;
-			var result:Boolean = MetadataTools.classExtendsFromNode( nodeXML, "DescriptionMock" );
-			Assert.assertTrue( result );
-		}
-		
-		// TODO : Not sure of the xml used here is the correct syntax
-		[Test(description="Ensure we can detect if a class does not extend another class")]
-		public function check_class_does_not_extend_another_class():void {
-			var nodeXML:XML = 	<classxml name="MyClass" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
-									<extendsClass type="DescriptionMock" />
-								</classxml>;
-			var result:Boolean = MetadataTools.classExtendsFromNode( nodeXML, "IDontExtendAnything" );
-			Assert.assertFalse( result );
-			
-		}
-		
-		// TODO : Not sure of the xml used here is the correct syntax
-		[Test(description="Ensure we can detect if extendsClass node is not passed in with the class xml")]
-		public function check_classxml_contains_no_extendsClass():void {
-			var nodeXML:XML = 	<classxml name="MyClass" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
-								</classxml>;
-			var result:Boolean = MetadataTools.classExtendsFromNode( nodeXML, "IDontExtendAnything" );
-			Assert.assertFalse( result );
-		}
-		
-		// TODO : Not sure of the xml used here is the correct syntax
-		[Test(description="Ensure we can detect when classxml is null we aren't detecting that we extend anything")]
-		public function when_classxml_isNull_ensure_class_does_not_extend_anything():void {
-			var result:Boolean = MetadataTools.classExtendsFromNode( null, "IDontExtendAnything" );
-			Assert.assertFalse( result );
-		}
-		
+
 		[Test(description="Ensure we can detect when a method has metadata of a specific name")]
 		public function check_nodeHasMetaData_true():void {
 			// create a method xml description
