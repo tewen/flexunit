@@ -3,9 +3,9 @@ package tests.flex.lang.reflect.metadata.utils.metaDataTools
 	import flex.lang.reflect.utils.MetadataTools;
 	
 	import org.flexunit.asserts.assertEquals;
-	import org.flexunit.asserts.assertTrue;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNull;
+	import org.flexunit.asserts.assertTrue;
 	
 	public class ToolsWithInvalidData
 	{
@@ -170,6 +170,20 @@ package tests.flex.lang.reflect.metadata.utils.metaDataTools
 								</classxml>;
 			
 			assertNull( MetadataTools.getArgValueFromDescription( descXML, "MyName", "description" ) );
+		}
+		
+		[Test(expects="TypeError")]
+		public function shouldThrowIfMethodsUndefined():void {
+			var descXML:XML = null;
+			
+			MetadataTools.getMethodsList( descXML );
+		}
+		
+		[Test(expects="TypeError")]
+		public function shouldThrowMethodListArgumentNull():void {
+			var methodXMLList:XMLList = null;
+			
+			MetadataTools.getMethodsDecoratedBy( methodXMLList, "MyName" );
 		}
 	}
 }

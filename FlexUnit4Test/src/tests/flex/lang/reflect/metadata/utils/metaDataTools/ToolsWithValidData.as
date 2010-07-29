@@ -3,9 +3,9 @@ package tests.flex.lang.reflect.metadata.utils.metaDataTools
 	import flex.lang.reflect.utils.MetadataTools;
 	
 	import org.flexunit.asserts.assertEquals;
-	import org.flexunit.asserts.assertTrue;
 	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertNull;
+	import org.flexunit.asserts.assertTrue;
 	
 	public class ToolsWithValidData
 	{
@@ -230,7 +230,100 @@ package tests.flex.lang.reflect.metadata.utils.metaDataTools
 			assertEquals( "DescriptionMock", MetadataTools.getArgValueFromDescription( descXML, "MyName", "description" ) );
 		}
 		
+		[Test]
+		public function shouldReturnListIfMethodsDefined():void {
+			var methodXML0:XML = <method name="myFirstMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="String"> 
+									<metadata name="Test">
+										<arg key="description" value="First description"/>
+									</metadata>
+								</method>;
+			var methodXML1:XML = <method name="mySecondMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="String"> 
+									<metadata name="Async">
+										<arg key="description" value="Second description"/>
+									</metadata>
+								</method>;
+			
+			var descXML:XML = <classxml name="MyClass" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void"/>;
+				
+			descXML.appendChild( methodXML0 );
+			descXML.appendChild( methodXML1 );
+			
+			var expectedMethodXMLList:XMLList = new XMLList();
+			expectedMethodXMLList[0] = methodXML0;
+			expectedMethodXMLList[1] = methodXML1;
+			
+			assertEquals( expectedMethodXMLList, MetadataTools.getMethodsList(descXML) );
+		}
 		
+		[Test]
+		public function shouldReturnTrueIfNodeParentMatch():void {
+			var methodXML0:XML = 	<method name="myFirstMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="String"> 
+										<metadata name="MyName1">
+											<arg key="description" value="DescriptionMock"/>
+										</metadata>
+									</method>;
+			var methodXML1:XML = 	<method name="mySecondMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="String"> 
+										<metadata name="MyName2">
+											<arg key="description" value="DescriptionMock2"/>
+										</metadata>
+									</method>;
+			
+			var methodXMLList:XMLList = new XMLList();
+			methodXMLList[0] = methodXML0;
+			methodXMLList[1] = methodXML1;
+			
+			var expectedMethodXMLList:XMLList = new XMLList();
+			expectedMethodXMLList[0] = methodXML1;
 
+			assertEquals( expectedMethodXMLList, MetadataTools.getMethodsDecoratedBy(methodXMLList, "MyName2") );
+			
+		}
+		
+		[Test]
+		public function shouldReturnEmptyListIfNodeParentNoMatch():void {
+			var methodXML0:XML = 	<method name="myFirstMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="String"> 
+										<metadata name="MyName1">
+											<arg key="description" value="DescriptionMock"/>
+										</metadata>
+									</method>;
+			var methodXML1:XML = 	<method name="mySecondMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="String"> 
+										<metadata name="MyName2">
+											<arg key="description" value="DescriptionMock2"/>
+										</metadata>
+									</method>;
+			
+			var methodXMLList:XMLList = new XMLList();
+			methodXMLList[0] = methodXML0;
+			methodXMLList[1] = methodXML1;
+			
+			var expectedMethodXMLList:XMLList = new XMLList();
+			
+			assertEquals( expectedMethodXMLList, MetadataTools.getMethodsDecoratedBy(methodXMLList, "MyName3") );
+		}
+		
+		[Test]
+		public function shouldReturnTwoItemListIfTwoNodesHaveSameParent():void {
+			var methodXML0:XML = 	<method name="myFirstMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="String"> 
+										<metadata name="MyName">
+											<arg key="description" value="DescriptionMock"/>
+										</metadata>
+									</method>;
+			var methodXML1:XML = 	<method name="mySecondMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="String"> 
+										<metadata name="MyName">
+											<arg key="description" value="DescriptionMock2"/>
+										</metadata>
+									</method>;
+			
+			var methodXMLList:XMLList = new XMLList();
+			methodXMLList[0] = methodXML0;
+			methodXMLList[1] = methodXML1;
+			
+			var expectedMethodXMLList:XMLList = new XMLList();
+			expectedMethodXMLList[0] = methodXML0;
+			expectedMethodXMLList[1] = methodXML1;
+			
+			assertEquals( expectedMethodXMLList, MetadataTools.getMethodsDecoratedBy(methodXMLList, "MyName") );
+			assertEquals( 2, MetadataTools.getMethodsDecoratedBy(methodXMLList, "MyName" ).length() );
+		}
 	}
 }
