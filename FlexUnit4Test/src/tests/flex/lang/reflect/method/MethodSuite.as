@@ -1,4 +1,6 @@
 package tests.flex.lang.reflect.method {
+	import tests.flex.lang.reflect.method.methodBuilder.MethodWithInvalidData;
+	import tests.flex.lang.reflect.method.methodBuilder.MethodWithValidData;
 
 	[Suite]
 	[RunWith("org.flexunit.runners.Suite")]
