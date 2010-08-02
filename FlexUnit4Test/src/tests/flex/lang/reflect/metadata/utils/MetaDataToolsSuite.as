@@ -9,7 +9,5 @@ package tests.flex.lang.reflect.metadata.utils
 	{
 		public var validDataTools:ToolsWithValidData;
 		public var invalidDataTools:ToolsWithInvalidData;
-		//Temporary, just until these tests are better organized into the sub classes.
-		public var metaDataToolsCase:MetaDataToolsCase;
 	}
 }

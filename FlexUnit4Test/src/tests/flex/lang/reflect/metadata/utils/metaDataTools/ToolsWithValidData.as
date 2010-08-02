@@ -325,5 +325,317 @@ package tests.flex.lang.reflect.metadata.utils.metaDataTools
 			assertEquals( expectedMethodXMLList, MetadataTools.getMethodsDecoratedBy(methodXMLList, "MyName") );
 			assertEquals( 2, MetadataTools.getMethodsDecoratedBy(methodXMLList, "MyName" ).length() );
 		}
+		
+		[Test]
+		public function shouldReturnTrueIfMetaDataNameMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
+									<metadata name="MyName">
+										<arg key="description" value="DesciptionMock"/>
+									</metadata>
+								</method>;
+			
+			assertTrue( MetadataTools.nodeHasMetaData( nodeXML, "MyName" ) );
+		}
+		
+		[Test]
+		public function shouldReturnFalseIfMetaDataNameNoMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
+									<metadata name="MyName">
+										<arg key="description" value="DesciptionMock"/>
+									</metadata>
+								</method>;
+			
+			assertFalse( MetadataTools.nodeHasMetaData( nodeXML, "MyName2" ) );
+		}
+		
+		[Test]
+		public function shouldReturnTrueIfMetaDataIsBlank():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
+									<metadata name="">
+										<arg key="description" value="DesciptionMock"/>
+									</metadata>
+								</method>;
+			
+			assertTrue( MetadataTools.nodeHasMetaData( nodeXML, "" ) );
+		}
+		
+		[Test]
+		public function shouldReturnTrueIfMethodParameterDefined():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
+									<parameter name="param1"/>
+								</method>;
+			
+			assertTrue( MetadataTools.doesMethodAcceptsParams( nodeXML ) );
+		}
+		
+		[Test]
+		public function shouldReturnTrueIfParameterNameBlank():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
+									<parameter/>
+								</method>;
+			
+			assertTrue( MetadataTools.doesMethodAcceptsParams( nodeXML ) );
+		}
+		
+		[Test]
+		public function shouldReturnTrueForTwoParametersDefined():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
+									<parameter name="param1"/>
+									<parameter name="param2"/>
+								</method>;
+			
+			assertTrue( MetadataTools.doesMethodAcceptsParams( nodeXML ) );
+		}
+		
+		[Test]
+		public function shouldReturnTrueForOneParameterNamed():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void">
+									<parameter/>
+									<parameter name="param2"/>
+								</method>;
+			
+			assertTrue( MetadataTools.doesMethodAcceptsParams( nodeXML ) );
+		}
+		
+		[Test]
+		public function shouldReturnFalseIfParameterUndefined():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void"/>;
+			
+			assertFalse( MetadataTools.doesMethodAcceptsParams( nodeXML ) );
+		}
+		
+		[Test]
+		public function shouldReturnIfReturnTypeDefined():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase" returnType="void"/>;
+			
+			assertEquals( MetadataTools.getMethodReturnType( nodeXML ), "void" );
+		}
+		
+		[Test]
+		public function shouldReturnBlankIfReturnTypeUndefined():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase"/>;
+			
+			assertEquals( MetadataTools.getMethodReturnType( nodeXML ), "" );
+		}
+		
+		[Test]
+		public function shouldReturnIfMetaDataDefined():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase">
+									<metadata name="MyName"/>
+								</method>;	
+			
+			var resultXMLList:XMLList = nodeXML.metadata;
+			
+			assertEquals( MetadataTools.nodeMetaData( nodeXML ), resultXMLList );
+
+		}
+		
+		[Test]
+		public function shouldReturnLengthTwoIfTwoMetaDataDefined():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase">
+									<metadata name="MyName"/>
+									<metadata name="MyName2"/>
+								</method>;	
+			
+			var resultXMLList:XMLList = nodeXML.metadata;
+			
+			assertEquals( MetadataTools.nodeMetaData( nodeXML ), resultXMLList );
+			assertEquals( MetadataTools.nodeMetaData( nodeXML ).length(), 2 );
+		}
+		
+		[Test]
+		public function shouldReturnIfMetaDataUnnamed():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase">
+									<metadata/>
+								</method>;	
+			
+			var resultXMLList:XMLList = nodeXML.metadata;
+			
+			assertEquals( MetadataTools.nodeMetaData( nodeXML ), resultXMLList );
+			
+		}
+		
+		[Test]
+		public function shouldReturnNodeIfNameMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase"/>;	
+			
+			var metaData1XML:XML = <metadata name="MyName"/>;
+			var metaData2XML:XML = <metadata name="MyName2"/>;
+			
+			nodeXML.appendChild( metaData1XML );
+			nodeXML.appendChild( metaData2XML );
+			
+			var argXMLList:XMLList = nodeXML.metadata;
+			
+			assertEquals( MetadataTools.getMetaDataNodeFromNodesList( argXMLList, "MyName" ), metaData1XML );
+		}
+		
+		[Test]
+		public function shouldReturnFirstNodeWhereNameMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase"/>;	
+			
+			var metaData1XML:XML = <metadata name="MyName"/>;
+			var metaData2XML:XML = <metadata name="MyName2"/>;
+			
+			nodeXML.appendChild( metaData1XML );
+			nodeXML.appendChild( metaData2XML );
+			
+			var argXMLList:XMLList = nodeXML.metadata;
+			
+			assertEquals( MetadataTools.getMetaDataNodeFromNodesList( argXMLList, "MyName2" ), metaData2XML );
+		}
+		
+		[Test]
+		public function shouldReturnNullIfNameNoMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase"/>;	
+			
+			var metaData1XML:XML = <metadata name="MyName"/>;
+			var metaData2XML:XML = <metadata name="MyName2"/>;
+			
+			nodeXML.appendChild( metaData1XML );
+			nodeXML.appendChild( metaData2XML );
+			
+			var argXMLList:XMLList = nodeXML.metadata;
+			
+			assertNull( MetadataTools.getMetaDataNodeFromNodesList( argXMLList, "MyName3" ) );
+		}
+		
+		[Test]
+		public function shouldReturnNodeWhereNameIsBlank():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase"/>;	
+			
+			var metaData1XML:XML = <metadata name=""/>;
+			var metaData2XML:XML = <metadata name="MyName2"/>;
+			
+			nodeXML.appendChild( metaData1XML );
+			nodeXML.appendChild( metaData2XML );
+			
+			var argXMLList:XMLList = nodeXML.metadata;
+			
+			assertEquals( MetadataTools.getMetaDataNodeFromNodesList( argXMLList, "" ), metaData1XML );
+		}
+		
+		[Test]
+		public function shouldReturnMetaDataIfNameIsPassedIn():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase"/>;	
+			
+			var metaDataXML:XML = <metadata name="MyName"/>;
+			
+			nodeXML.appendChild( metaDataXML );
+			
+			assertEquals( MetadataTools.getArgsFromFromNode( nodeXML, "MyName" ), metaDataXML );
+		}
+		
+		[Test]
+		public function shouldReturnFirstNodeWhereMetaDataNameIsPassedIn():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase"/>;	
+			
+			var metaData1XML:XML = <metadata name="MyName"/>;
+			var metaData2XML:XML = <metadata name="MyName2"/>
+			
+			nodeXML.appendChild( metaData1XML );
+			nodeXML.appendChild( metaData2XML );
+			
+			assertEquals( MetadataTools.getArgsFromFromNode( nodeXML, "MyName2" ), metaData2XML );
+		}
+		
+		[Test]
+		public function shouldReturnNodeIfNameBlank():void {
+			var nodeXML:XML = 	<method name="MyMethod" declaredBy="flex.lang.reflect.cases::MethodCase"/>;	
+			
+			var metaData1XML:XML = <metadata name=""/>;
+			var metaData2XML:XML = <metadata name="MyName2"/>
+			
+			nodeXML.appendChild( metaData1XML );
+			nodeXML.appendChild( metaData2XML );
+			
+			assertEquals( MetadataTools.getArgsFromFromNode( nodeXML, "" ), metaData1XML );
+		}
+		
+		[Test]
+		public function shouldReturnTrueIfMetaDataValueMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod">
+									<metadata name="MyName">
+										<arg key="" value="ValueMock"/>
+									</metadata>
+								</method>;
+			
+			assertTrue( MetadataTools.checkForValueInBlankMetaDataNode( nodeXML, "MyName", "ValueMock" ) );
+		}
+		
+		[Test]
+		public function shouldReturnFalseIfMetaDataValueNoMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod">
+									<metadata name="MyName">
+										<arg key="" value="ValueMock"/>
+									</metadata>
+								</method>;
+			
+			assertFalse( MetadataTools.checkForValueInBlankMetaDataNode( nodeXML, "MyName", "ValueMock2" ) );
+		}
+		
+		[Test]
+		public function shouldReturnFalseIfMetaDataNameCheckNoMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod">
+									<metadata name="MyName">
+										<arg key="" value="ValueMock"/>
+									</metadata>
+								</method>;
+			
+			assertFalse( MetadataTools.checkForValueInBlankMetaDataNode( nodeXML, "MyName2", "ValueMock" ) );	
+		}
+		
+		[Test]
+		public function shouldReturnFalseIfArgKeyDefined():void {
+			var nodeXML:XML = 	<method name="MyMethod">
+									<metadata name="MyName">
+										<arg key="MyKey" value="ValueMock"/>
+									</metadata>
+								</method>;
+			
+			assertFalse( MetadataTools.checkForValueInBlankMetaDataNode( nodeXML, "MyName", "ValueMock" ) );
+		}
+		
+		[Test]
+		public function shouldReturnValueIfMetaDataArgKeyMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod">
+									<metadata name="MyName">
+										<arg key="MyKey" value="ValueMock"/>
+									</metadata>
+								</method>;
+			
+			assertEquals( MetadataTools.getArgValueFromMetaDataNode( nodeXML, "MyName", "MyKey" ), "ValueMock" );
+		}
+		
+		[Test]
+		public function shouldReturnNullIfMetaDataArgKeyNoMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod">
+									<metadata name="MyName">
+										<arg key="MyKey" value="ValueMock"/>
+									</metadata>
+								</method>;
+			
+			assertNull( MetadataTools.getArgValueFromMetaDataNode( nodeXML, "MyName", "MyKey2" ) );
+		}
+		
+		[Test]
+		public function shouldReturnNullForArgIfMetaDataNameNoMatch():void {
+			var nodeXML:XML = 	<method name="MyMethod">
+									<metadata name="MyName">
+										<arg key="MyKey" value="ValueMock"/>
+									</metadata>
+								</method>;
+			
+			assertNull( MetadataTools.getArgValueFromMetaDataNode( nodeXML, "MyName2", "MyKey" ) );
+		}
+		
+		[Test]
+		public function shouldReturnTrueIfArgKeyPassedIn():void {
+			var nodeXML:XML = 	<metadata name="MyName">
+									<arg key="MyKey" value="ValueMock"/>
+								</metadata>;
+			
+			assertEquals( MetadataTools.getArgValueFromSingleMetaDataNode( nodeXML, "MyKey" ), "ValueMock" );
+		}
 	}
 }

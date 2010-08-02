@@ -244,9 +244,9 @@ package flex.lang.reflect.utils
 		 */
 		public static function nodeMetaData( node:XML ):XMLList {
 			if ( node && node.metadata && ( node.metadata.length() > 0 ) ) {
-				var metaNodes:XMLList;
+				var metaNodes:XMLList = node.metadata;
 				
-				return node.metadata;
+				return metaNodes;
 			} 
 			
 			return null;
