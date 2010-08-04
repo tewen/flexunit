@@ -7,7 +7,7 @@ package org.flexunit.async.cases
 	import org.flexunit.internals.runners.statements.mock.AsyncHandlingStatementMock;
 
 	public class AsyncASCase
-	{
+	{	
 		public var asyncHandlingStatementMock:AsyncHandlingStatementMock;
 		protected var testCase:Object;
 		
