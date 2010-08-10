@@ -1,6 +1,9 @@
 package org.flexunit.assert.cases
 {
+	import flexunit.framework.AssertionFailedError;
+	
 	import org.flexunit.Assert;
+	import org.flexunit.asserts.assertEquals;
 
 	public class AssertWithInvalidData
 	{

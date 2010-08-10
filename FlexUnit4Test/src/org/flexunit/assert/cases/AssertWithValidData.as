@@ -1,5 +1,7 @@
 package org.flexunit.assert.cases
 {
+	import flexunit.framework.AssertionFailedError;
+	
 	import org.flexunit.Assert;
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertFalse;
@@ -147,15 +149,32 @@ package org.flexunit.assert.cases
 			Assert.failNotEquals( message, arg1, arg2);
 		}
 		
-		//Need to find out how to test that a particular failure message was sent
 		[Test(expects="flexunit.framework.AssertionFailedError")]
-		public function shouldFailWithMessage():void {
+		public function shouldFailNotEquals():void {
 			var arg1:int = 5;
 			var arg2:int = 7;
 			
 			var message:String = "Failure Message";
 			
 			Assert.failNotEquals( message, arg1, arg2);
+		}
+		
+		[Test]
+		public function shouldFailWithMessage():void {
+			var arg1:int = 5;
+			var arg2:int = 7;
+			var failed:Boolean = false;
+			
+			var message:String = "Failure Message";
+			
+			try {
+				Assert.failNotEquals( message, arg1, arg2);
+			} catch(error:AssertionFailedError) {
+				failed = true;
+				assertEquals( message + " - expected:<" + arg1 + "> but was:<" + arg2 + ">", error.message );
+			}
+			if (!failed)
+				Assert.fail( "Assert.failNotEquals did not fail with the expected message" );
 		}
 		
 		[Test]
@@ -174,12 +193,28 @@ package org.flexunit.assert.cases
 		}
 		
 		[Test(expects="flexunit.framework.AssertionFailedError")]
+		public function shouldReturnStrictFail():void {
+			var arg1:Object = new Object();
+			var arg2:Object = new Object();
+			
+			Assert.assertStrictlyEquals( arg1, arg2 );
+		}
+		
+		[Test]
 		public function shouldReturnStrictFailWithMessage():void {
 			var arg1:Object = new Object();
 			var arg2:Object = new Object();
 			var message:String = "Failure Message";
+			var failed:Boolean = false;
 			
-			Assert.assertStrictlyEquals( message, arg1, arg2 );
+			try {
+				Assert.assertStrictlyEquals( message, arg1, arg2 );
+			} catch(error:AssertionFailedError) {
+				failed = true;
+				assertEquals( message + " - expected:<" + arg1 + "> but was:<" + arg2 + ">", error.message );
+			}
+			if (!failed)
+				Assert.fail( "Assert.assertStrictlyEquals did not fail with the expected message" );
 		}
 		
 		[Test]
@@ -196,13 +231,30 @@ package org.flexunit.assert.cases
 		}
 		
 		[Test(expects="flexunit.framework.AssertionFailedError")]
-		public function shouldFailWithStrictlyUnequalMessage():void {
+		public function shouldFailWithStrictlyUnequal():void {
 			var myObject1:Object = new Object();
 			var myObject2:Object = new Object();
 			
 			var message:String = "Failure Message";
 			
 			Assert.failNotStrictlyEquals( message, myObject1, myObject2 );
+		}
+		
+		[Test]
+		public function shouldFailWithStrictlyUnequalMessage():void {
+			var myObject1:Object = new Object();
+			var myObject2:Object = new Object();
+			var message:String = "Failure Message";
+			var failed:Boolean = false;
+			
+			try {
+				Assert.failNotStrictlyEquals( message, myObject1, myObject2 );
+			} catch(error:AssertionFailedError) {
+				failed = true;
+				assertEquals( message + " - expected:<" + myObject1 + "> but was:<" + myObject2 + ">", error.message );
+			}
+			if (!failed)
+				Assert.fail( "Assert.failNotStrictlyEquals did not fail with the expected message" );
 		}
 		
 		[Test]
@@ -227,13 +279,20 @@ package org.flexunit.assert.cases
 			Assert.assertTrue( arg );
 		}
 		
-		[Test(expects="flexunit.framework.AssertionFailedError")]
+		[Test]
 		public function shouldFailIfFalseWithMessage():void {
 			var arg:Boolean = false;
-			
 			var message:String = "Failure Message";
+			var failed:Boolean = false;
 			
-			Assert.assertTrue( message, arg );
+			try {
+				Assert.assertTrue( message, arg );
+			} catch(error:AssertionFailedError) {
+				failed = true;
+				assertEquals( message + " - expected true but was false", error.message );
+			}
+			if (!failed)
+				Assert.fail( "Assert.assertTrue did not fail with the expected message" );
 		}
 		
 		[Test]
@@ -258,11 +317,27 @@ package org.flexunit.assert.cases
 		}
 		
 		[Test(expects="flexunit.framework.AssertionFailedError")]
-		public function shouldFailNotTrueWithMessage():void {
+		public function shouldFailNotTrue():void {
 			var arg:Boolean = false;
 			var message:String = "Failure Message";
 			
 			Assert.failNotTrue( message, arg );
+		}
+		
+		[Test]
+		public function shouldFailNotTrueWithMessage():void {
+			var arg:Boolean = false;
+			var message:String = "Failure Message";
+			var failed:Boolean = false;
+			
+			try {
+				Assert.failNotTrue( message, arg );
+			} catch(error:AssertionFailedError) {
+				failed = true;
+				assertEquals( message + " - expected true but was false", error.message );
+			}
+			if (!failed)
+				Assert.fail( "Assert.failNotTrue did not fail with the expected message" );
 		}
 		
 		[Test]
@@ -279,12 +354,20 @@ package org.flexunit.assert.cases
 			Assert.assertFalse( arg );
 		}
 		
-		[Test(expects="flexunit.framework.AssertionFailedError")]
+		[Test]
 		public function shouldFailIfNotFalseWithMessage():void {
 			var arg:Boolean = true;
 			var message:String = "Failure Message";
+			var failed:Boolean = false;
 			
-			Assert.assertFalse( message, arg );
+			try {
+				Assert.assertFalse( message, arg );
+			} catch(error:AssertionFailedError) {
+				failed = true;
+				assertEquals( message + " - expected false but was true", error.message );
+			}
+			if (!failed)
+				Assert.fail( "Assert.assertFalse did not fail with the expected message" );
 		}
 		
 		[Test]
@@ -309,11 +392,27 @@ package org.flexunit.assert.cases
 		}
 		
 		[Test(expects="flexunit.framework.AssertionFailedError")]
-		public function shouldFailConditionWithMessage():void {
+		public function shouldFailCondition():void {
 			var arg:Boolean = true;
 			var message:String = "Failure Message";
 			
 			Assert.failTrue( message, arg );
+		}
+		
+		[Test]
+		public function shouldFailConditionWithMessage():void {
+			var arg:Boolean = true;
+			var message:String = "Failure Message";
+			var failed:Boolean = false;
+			
+			try {
+				Assert.failTrue( message, arg );
+			} catch(error:AssertionFailedError) {
+				failed = true;
+				assertEquals( message + " - expected false but was true", error.message );
+			}
+			if (!failed)
+				Assert.fail( "Assert.failTrue did not fail with the expected message" );
 		}
 		
 		[Test(expects="flexunit.framework.AssertionFailedError")]
@@ -330,12 +429,20 @@ package org.flexunit.assert.cases
 			Assert.assertNull( myObject );
 		}
 		
-		[Test(expects="flexunit.framework.AssertionFailedError")]
+		[Test]
 		public function shouldFailIfNotNullWithMessage():void {
 			var myObject:Object = new Object();
 			var message:String = "Failure Message";
+			var failed:Boolean = false;
 			
-			Assert.assertNull( message, myObject );
+			try {
+				Assert.assertNull( message, myObject );
+			} catch(error:AssertionFailedError) {
+				failed = true;
+				assertEquals( message + " - object was not null: " + myObject, error.message );
+			}
+			if (!failed)
+				Assert.fail( "Assert.assertNull did not fail with the expected message" );
 		}
 		
 		[Test]
@@ -365,12 +472,20 @@ package org.flexunit.assert.cases
 			Assert.assertNotNull( myObject );
 		}
 			
-		[Test(expects="flexunit.framework.AssertionFailedError")]
+		[Test]
 		public function shouldFailWithNotNullArgMessage():void {
 			var myObject:Object = new Object();
 			var message:String = "FailureMessage";
+			var failed:Boolean = false;
 			
-			Assert.failNotNull( message, myObject );
+			try {
+				Assert.failNotNull( message, myObject );
+			} catch(error:AssertionFailedError) {
+				failed = true;
+				assertEquals( message + " - object was not null: " + myObject, error.message );
+			}
+			if (!failed)
+				Assert.fail( "Assert.failNotNull did not fail with the expected message" );
 		}
 
 		[Test(expects="flexunit.framework.AssertionFailedError")]
@@ -378,11 +493,19 @@ package org.flexunit.assert.cases
 			Assert.fail();
 		}
 		
-		[Test(expects="flexunit.framework.AssertionFailedError")]
+		[Test]
 		public function shouldThrowErrorWithMessage():void {
-			var message:String = "FailureMessage";
+			var message:String = "Failure Message";
+			var failed:Boolean = false;
 			
-			Assert.fail( message );
+			try {
+				Assert.fail( message );
+			} catch(error:AssertionFailedError) {
+				failed = true;
+				assertEquals( message, error.message );
+			}
+			if (!failed)
+				Assert.fail( "Assert.fail did not fail with the expected message" );
 		}
 	}
 }
