@@ -1,11 +1,11 @@
 package org.flexunit {
 	import org.flexunit.async.AsyncSuite;
 	import org.flexunit.cases.AssertCase;
+	import org.flexunit.assert.AssertSuite;
 	import org.flexunit.cases.AssertThatCase;
 	import org.flexunit.cases.AssertionErrorCase;
 	import org.flexunit.cases.AssumeCase;
 	import org.flexunit.cases.AssumeThatCase;
-
 	import org.flexunit.events.EventsSuite;
 	import org.flexunit.experimental.ExperimentSuite;
 	import org.flexunit.internals.InternalsSuite;
@@ -20,6 +20,7 @@ package org.flexunit {
 	public class FlexUnit4FlexUnitSuite
 	{
 		//Suites
+		public var assertSuite:AssertSuite;
 		public var asyncSuite:AsyncSuite;
 		public var eventsSuite:EventsSuite;
 		public var experimentalSuite:ExperimentSuite;
@@ -31,7 +32,6 @@ package org.flexunit {
 		public var utilsSuite:UtilsSuite;
 		
 		//Cases
-		public var assertCase:AssertCase;
 		public var assertionErrorCase:AssertionErrorCase;
 		public var assertThatCase:AssertThatCase;
 		public var assumeCase:AssumeCase;
