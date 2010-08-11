@@ -55,5 +55,17 @@ package tests.org.flexunit.assert.nullHandling
 			
 			Assert.assertEquals( "Yo Yo Yo" + " - object was not null: [object Object]", message );
 		}
+		
+		[Test]
+		public function shouldAddAssertNullToCount():void {
+			var startCount:int = 0;
+			var endCount:int = 2;
+			
+			Assert.assertEquals( startCount, Assert.assertionsMade )
+			
+			Assert.assertNull( null );
+			
+			Assert.assertEquals( endCount, Assert.assertionsMade );
+		}
 	}
 }

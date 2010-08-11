@@ -23,6 +23,22 @@ package tests.org.flexunit.assert.dynamicApp {
 			Assert.assertWithApply( assertObj.assert, [obj1,obj2] );
 		}
 		
+		[Test]
+		public function shouldAddAssertWithApplyToCount():void {
+			var obj1:Object = new Object();
+			var obj2:Object = new Object();
+			var startCount:int = 0;
+			var endCount:int = 2;
+			
+			Assert.assertEquals( startCount, Assert.assertionsMade )
+			
+			stub( assertObj ).method( "assert" ).args( obj1,obj2 );
+			Assert.assertWithApply( assertObj.assert, [obj1,obj2] );
+			
+			Assert.assertEquals( endCount, Assert.assertionsMade );
+			
+		}
+		
 		[Test(description="Ensure that the assertWith function correct runs the function with the list of paramters")]
 		public function shouldPassUsingInvoke():void {
 			
@@ -32,6 +48,21 @@ package tests.org.flexunit.assert.dynamicApp {
 			stub( assertObj ).method( "assert" ).args( obj1,obj2 );
 			
 			Assert.assertWith( assertObj.assert, obj1, obj2 );
+		}
+		
+		[Test]
+		public function shouldAddAssertWithToCount():void {
+			var obj1:Object = new Object();
+			var obj2:Object = new Object();
+			var startCount:int = 0;
+			var endCount:int = 2;
+			
+			Assert.assertEquals( startCount, Assert.assertionsMade )
+			
+			stub( assertObj ).method( "assert" ).args( obj1,obj2 );
+			Assert.assertWith( assertObj.assert, obj1, obj2 );
+			
+			Assert.assertEquals( endCount, Assert.assertionsMade );
 		}
 	}
 }

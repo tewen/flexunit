@@ -87,5 +87,13 @@ package tests.org.flexunit.assert.equals
 			
 			Assert.assertEquals( "Yo Yo Yo" + " - expected:<2> but was:<4>", message );
 		}
+		
+		[Test]
+		public function shouldAddAssertEqualsToCount():void {
+			var count:int = Assert.assertionsMade;
+			
+			Assert.assertEquals( count, Assert.assertionsMade );
+			Assert.assertEquals( count + 1, Assert.assertionsMade );
+		}
 	}
 }

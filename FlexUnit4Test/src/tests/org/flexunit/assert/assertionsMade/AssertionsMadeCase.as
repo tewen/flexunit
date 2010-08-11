@@ -2,11 +2,18 @@ package tests.org.flexunit.assert.assertionsMade {
 	import org.flexunit.Assert;
 
 	public class AssertionsMadeCase {
+		[Test]
+		public function shouldReturnZeroCount():void {
+			var count:int = Assert.assertionsMade;
+			
+			Assert.assertEquals( count, Assert.assertionsMade );
+		}
+		
 		[Test(description="Ensure that the assertionsMade property returns the correct assertCount")]
 		public function shouldShowOneAssertionMade():void {
 			var count:int = Assert.assertionsMade;
 			//Reset the fields to ensure the the count is accurate
-			Assert.assertEquals( 0, 0 );
+			Assert.assertEquals( count, Assert.assertionsMade );
 			Assert.assertEquals( count + 1, Assert.assertionsMade );
 		}
 		

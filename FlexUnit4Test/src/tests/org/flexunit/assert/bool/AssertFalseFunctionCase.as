@@ -54,5 +54,18 @@ package tests.org.flexunit.assert.bool
 
 			Assert.assertEquals( "Yo Yo Yo" + " - expected false but was true", message );
 		}
+		
+		[Test]
+		public function shouldAddAssertFalseToCount():void {
+			var arg:Boolean = false;
+			var startCount:int = 0;
+			var endCount:int = 2;
+			
+			Assert.assertEquals( startCount, Assert.assertionsMade )
+			
+			assertFalse( arg );
+			
+			Assert.assertEquals( endCount, Assert.assertionsMade );
+		}
 	}
 }
