@@ -95,7 +95,7 @@ package org.flexunit.async
 			var asyncHandlingStatement:IAsyncHandlingStatement = AsyncLocator.getCallableForTest( testCase );
 			var handler:Function;
 			
-			handler = asyncHandlingStatement.asyncHandler( asyncHandlingStatement.failOnComplete, timeout, null, asyncHandlingStatement.pendUntilComplete );
+			handler = asyncHandlingStatement.asyncHandler( asyncHandlingStatement.failOnComplete, timeout, null, timeoutHandler );
 			target.addEventListener( eventName, handler, false, 0, true );  
 		}
 		
