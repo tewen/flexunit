@@ -30,15 +30,14 @@ package tests.org.flexunit.async.AsyncAS
 			var handler:Function = new Function();
 			var timeoutHandler:Function = new Function();
 			
-			stub( asyncHandlerMock ).method( "asyncHandler" ).returns( handler );
+			stub( asyncHandlerMock ).method( "asyncHandler" ).args( asyncHandlerMock.failOnComplete, 
+				timeout, null, timeoutHandler ).returns( handler );
 			stub( targetMock ).method( "addEventListener" );
 			
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
 			
 			Async.failOnEvent( testCase, targetMock, eventName, timeout, timeoutHandler );
 			
-			verify( asyncHandlerMock ).method( "asyncHandler" ).args( asyncHandlerMock.failOnComplete, 
-				timeout, null, timeoutHandler );
 			verify( targetMock ).method( "addEventListener" ).args( eventName, handler, 
 				false, 0, true ); 
 		}
@@ -50,14 +49,13 @@ package tests.org.flexunit.async.AsyncAS
 
 			var handler:Function = new Function();
 
-			stub( asyncHandlerMock ).method( "asyncHandler" ).returns( handler );
+			stub( asyncHandlerMock ).method( "asyncHandler" ).args( asyncHandlerMock.failOnComplete, 500, null, null ).returns( handler );
 			stub( targetMock ).method( "addEventListener" );
 			
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
 			
 			Async.failOnEvent( testCase, targetMock, eventName );
 			
-			verify( asyncHandlerMock ).method( "asyncHandler" ).args( asyncHandlerMock.failOnComplete, 500, null, null );
 			verify( targetMock ).method( "addEventListener" ).args( eventName, handler, 
 				false, 0, true ); 
 		}

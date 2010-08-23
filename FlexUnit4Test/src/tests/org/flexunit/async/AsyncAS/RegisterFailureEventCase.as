@@ -34,14 +34,13 @@ package tests.org.flexunit.async.AsyncAS
 			var eventName:String = "Register Failure Event";
 			var handler:Function = new Function();
 			
-			stub( asyncHandlerMock ).method( "asyncErrorConditionHandler" ).returns( handler );
+			stub( asyncHandlerMock ).method( "asyncErrorConditionHandler" ).args( asyncHandlerMock.failOnComplete ).returns( handler );
 			stub( targetMock ).method( "addEventListener" );
 			
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
 			
 			Async.registerFailureEvent( testCase, targetMock, eventName );
 			
-			verify( asyncHandlerMock ).method( "asyncErrorConditionHandler" ).args( asyncHandlerMock.failOnComplete );
 			verify( targetMock ).method( "addEventListener" ).args( eventName, handler ); 
 		}
 		
