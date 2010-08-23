@@ -56,6 +56,27 @@ package tests.org.flexunit.async.AsyncAS
 				false, 0, true );
 		}
 		
+		[Test]
+		public function shouldAssignWithSomeDefaultArguments():void {
+			var testCase:Object = new Object();
+			var eventName:String = "Handle Event";
+			var eventHandler:Function = new Function();
+			
+			var handler:Function = new Function();
+			
+			stub( asyncHandlerMock ).method( "asyncHandler" ).returns( handler );
+			stub( targetMock ).method( "addEventListener" );
+			
+			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
+			
+			Async.handleEvent( testCase, targetMock, eventName, eventHandler );
+			
+			verify( asyncHandlerMock ).method( "asyncHandler" ).args( eventHandler, 
+				500, null, null );
+			verify( targetMock ).method( "addEventListener" ).args( eventName, handler, 
+				false, 0, true );
+		}
+		
 		[Test(expects="org.flexunit.AssertionError")]
 		public function shouldThrowIfTestCaseUnregistered():void {
 			var testCase:Object = new Object();

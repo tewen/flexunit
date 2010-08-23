@@ -33,7 +33,7 @@ package tests.org.flexunit.async.AsyncAS
 		[Test]
 		public function shouldProceedWithValidArguments():void {
 			var testCase:Object = new Object();
-			var eventName:String = "Proceed Event";
+			var eventName:String = "ProceedEvent";
 			var timeout:Number = 500;
 			var handler:Function = new Function();
 			var timeoutHandler:Function = new Function();
@@ -51,11 +51,31 @@ package tests.org.flexunit.async.AsyncAS
 				false, 0, true ); 
 		}
 		
+		[Test]
+		public function shouldProceedWithSomeDefaultArguments():void {
+			var testCase:Object = new Object();
+			var eventName:String = "ProceedEvent";
+			
+			var handler:Function = new Function();
+
+			stub( asyncHandlerMock ).method( "asyncHandler" ).returns( handler );
+			stub( targetMock ).method( "addEventListener" );
+			
+			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
+			
+			Async.proceedOnEvent( testCase, targetMock, eventName );
+			
+			verify( asyncHandlerMock ).method( "asyncHandler" ).args( asyncHandlerMock.pendUntilComplete, 
+				500, null, null );
+			verify( targetMock ).method( "addEventListener" ).args( eventName, handler, 
+				false, 0, true ); 
+		}
+		
 		[Test(expects="org.flexunit.AssertionError")]
 		public function shouldThrowIfTestCaseUnregistered():void {
 			var testCase:Object = new Object();
 			var target:EventDispatcher = new EventDispatcher();
-			var eventName:String = "Proceed Event";
+			var eventName:String = "ProceedEvent";
 			
 			Async.proceedOnEvent( testCase, target, eventName );
 		}
@@ -64,7 +84,7 @@ package tests.org.flexunit.async.AsyncAS
 		public function shouldThrowIfTestCaseUndefined():void {
 			var testCase:Object = null;
 			var target:EventDispatcher = new EventDispatcher();
-			var eventName:String = "Proceed Event";
+			var eventName:String = "ProceedEvent";
 			
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
 			
@@ -75,7 +95,7 @@ package tests.org.flexunit.async.AsyncAS
 		public function shouldThrowIfTargetUndefined():void {
 			var testCase:Object = new Object();
 			var target:EventDispatcher = null;
-			var eventName:String = "Proceed Event";
+			var eventName:String = "ProceedEvent";
 			
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
 			

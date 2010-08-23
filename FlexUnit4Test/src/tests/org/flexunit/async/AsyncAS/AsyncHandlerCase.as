@@ -25,7 +25,7 @@ package tests.org.flexunit.async.AsyncAS
 		public var targetMock:IEventDispatcher;
 		
 		[Test]
-		public function shouldReturnWithValidArguments():void {
+		public function shouldReturnWithAllValidArguments():void {
 			var testCase:Object = new Object();
 			var eventHandler:Function = new Function();
 			var timeout:Number = 500;
@@ -40,6 +40,22 @@ package tests.org.flexunit.async.AsyncAS
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
 			
 			assertThat( Async.asyncHandler( testCase, eventHandler, timeout, passThroughData, timeoutHandler ), equalTo( handler ) );
+		}
+		
+		[Test]
+		public function shouldReturnWithSomeDefaultArguments():void {
+			var testCase:Object = new Object();
+			var eventHandler:Function = new Function();
+			var timeout:Number = 500;
+			
+			var handler:Function = new Function();
+			
+			stub( asyncHandlerMock ).method( "asyncHandler" ).args( eventHandler, 
+				timeout, null, null ).returns( handler );
+			
+			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
+			
+			assertThat( Async.asyncHandler( testCase, eventHandler, timeout ), equalTo( handler ) );
 		}
 		
 		[Test]

@@ -42,6 +42,20 @@ package tests.org.flexunit.async.AsyncAS
 		}
 		
 		[Test]
+		public function shouldReturnWithSomeDefaultArguments():void {
+			var testCase:Object = new Object();
+			var responder:Object = new Object();
+			var timeout:Number = 500;
+			
+			stub( asyncHandlerMock ).method( "asyncResponder" ).args( responder, 
+				timeout, null, null ).returns( responderMock );
+			
+			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
+			
+			assertThat( Async.asyncResponder( testCase, responder, timeout ), equalTo( responderMock ) );
+		}
+		
+		[Test]
 		public function shouldReturnIfTestCaseUndefined():void {
 			var testCase:Object = null;
 			var responder:Object = new Object();
