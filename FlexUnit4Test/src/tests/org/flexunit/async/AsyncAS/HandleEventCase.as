@@ -35,7 +35,7 @@ package tests.org.flexunit.async.AsyncAS
 		[Test]
 		public function shouldAssignWithValidArguments():void {
 			var testCase:Object = new Object();
-			var eventName:String = "Handle Event";
+			var eventName:String = "handleEvent";
 			var eventHandler:Function = new Function();
 			var timeout:Number = 500;
 			var passThroughData:Object = new Object();
@@ -58,7 +58,7 @@ package tests.org.flexunit.async.AsyncAS
 		[Test]
 		public function shouldAssignWithSomeDefaultArguments():void {
 			var testCase:Object = new Object();
-			var eventName:String = "Handle Event";
+			var eventName:String = "handleEvent";
 			var eventHandler:Function = new Function();
 			
 			var handler:Function = new Function();
@@ -79,7 +79,7 @@ package tests.org.flexunit.async.AsyncAS
 		public function shouldThrowIfTestCaseUnregistered():void {
 			var testCase:Object = new Object();
 			var target:EventDispatcher = new EventDispatcher();
-			var eventName:String = "Handle Event";
+			var eventName:String = "handleEvent";
 			var eventHandler:Function = new Function();
 			
 			Async.handleEvent( testCase, target, eventName, eventHandler );
@@ -89,7 +89,7 @@ package tests.org.flexunit.async.AsyncAS
 		public function shouldThrowIfTestCaseUndefined():void {
 			var testCase:Object = null;
 			var target:EventDispatcher = new EventDispatcher();
-			var eventName:String = "Handle Event";
+			var eventName:String = "handleEvent";
 			var eventHandler:Function = new Function();
 			
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
@@ -101,7 +101,7 @@ package tests.org.flexunit.async.AsyncAS
 		public function shouldThrowIfTargetUndefined():void {
 			var testCase:Object = new Object();
 			var target:EventDispatcher = null;
-			var eventName:String = "Handle Event";
+			var eventName:String = "handleEvent";
 			var eventHandler:Function = new Function();
 			
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
@@ -125,7 +125,7 @@ package tests.org.flexunit.async.AsyncAS
 		public function shouldThrowIfEventHandlerUndefined():void {
 			var testCase:Object = new Object();
 			var target:EventDispatcher = new EventDispatcher();
-			var eventName:String = "Handle Event";
+			var eventName:String = "handleEvent";
 			var eventHandler:Function = null;
 			
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );

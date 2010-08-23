@@ -25,7 +25,7 @@ package tests.org.flexunit.async.AsyncAS
 		[Test]
 		public function shouldFailWithValidArguments():void {
 			var testCase:Object = new Object();
-			var eventName:String = "Fail Event";
+			var eventName:String = "failEvent";
 			var timeout:Number = 500;
 			var handler:Function = new Function();
 			var timeoutHandler:Function = new Function();
@@ -45,7 +45,7 @@ package tests.org.flexunit.async.AsyncAS
 		[Test]
 		public function shouldFailWithSomeDefaultArguments():void {
 			var testCase:Object = new Object();
-			var eventName:String = "Fail Event";
+			var eventName:String = "failEvent";
 
 			var handler:Function = new Function();
 
@@ -64,7 +64,7 @@ package tests.org.flexunit.async.AsyncAS
 		public function shouldThrowIfTestCaseUnregistered():void {
 			var testCase:Object = new Object();
 			var target:EventDispatcher = new EventDispatcher();
-			var eventName:String = "Fail Event";
+			var eventName:String = "failEvent";
 			
 			Async.proceedOnEvent( testCase, target, eventName );
 		}
@@ -73,7 +73,7 @@ package tests.org.flexunit.async.AsyncAS
 		public function shouldThrowIfTestCaseUndefined():void {
 			var testCase:Object = null;
 			var target:EventDispatcher = new EventDispatcher();
-			var eventName:String = "Fail Event";
+			var eventName:String = "failEvent";
 			
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
 			
@@ -84,7 +84,7 @@ package tests.org.flexunit.async.AsyncAS
 		public function shouldThrowIfTargetUndefined():void {
 			var testCase:Object = new Object();
 			var target:EventDispatcher = null;
-			var eventName:String = "Fail Event";
+			var eventName:String = "failEvent";
 			
 			AsyncLocator.registerStatementForTest( asyncHandlerMock, testCase );
 			
