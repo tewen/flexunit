@@ -77,6 +77,31 @@ public class Async {
     }
     
     /**
+     * This method is used when you want to ensure that a specific signal fires during an asynchronous test. When the signal fires, the flex unit
+     * framework simply acknowledges it internally. If there are additional outstanding asynchronous signals, those will be processed individually.
+     *
+     * This method is generally used when the existance of the signal, and not the even't data is sufficient to indicate success. If you need to inspect
+     * the signal's data before making a decision, then use <code>handleEvent</code> instead.
+     *
+     * @param testCase The current asynchronous test case.
+     * @param target The target that will listen for the dispatched <code>signalName</code>.
+     * @param signalName The name of the signal being listend for by the <code>target</code>.
+     * @param timeout The length of time, in milliseconds, before the calling the <code>timeoutHandler</code>
+     * if the <code>signalName</code> signal is not dispatched.
+     * @param timeoutHandler The function that will be executed if the <code>target</code> does not
+     * receive expected <code>signalName</code> before the <code>timeout</code> time is reached.
+     */
+    public static function proceedOnSignal( testCase : Object, signalInstance : *,
+        timeout : int = 500, timeoutHandler : Function = null ) : void {
+        var asyncHandlingStatement : IAsyncHandlingStatement = AsyncLocator.getCallableForTest( testCase );
+        var handler : Function;
+        
+        handler = asyncHandlingStatement.asyncSignalHandler( asyncHandlingStatement.pendUntilComplete,
+            timeout, null, timeoutHandler );
+        signalInstance.add( handler );
+    }
+    
+    /**
      * This method is used when you want to fail if a given event occurs, within a given amount of time, during an asynchronous test. When the event fires,
      * the flex unit framework causes the test to fail. If the timout is reached before the failure occurs, then the framework will no longer watch for
      * this event. So, for example, if you want to verify that you do not receive a failure within 300ms, this would be a good method to use.
@@ -100,6 +125,32 @@ public class Async {
         handler = asyncHandlingStatement.asyncHandler( asyncHandlingStatement.failOnComplete,
             timeout, null, asyncHandlingStatement.pendUntilComplete );
         target.addEventListener( eventName, handler, false, 0, true );
+    }
+    
+    /**
+     * This method is used when you want to fail if a given signal occurs, within a given amount of time, during an asynchronous test. When the signal fires,
+     * the flex unit framework causes the test to fail. If the timout is reached before the failure occurs, then the framework will no longer watch for
+     * this signal. So, for example, if you want to verify that you do not receive a failure within 300ms, this would be a good method to use.
+     *
+     * This method is generally used when the existance of the signal, and not the even't data is sufficient to indicate failure. If you need to inspect
+     * the signal's data before making a decision, then use <code>handleEvent</code> instead.
+     *
+     * @param testCase The current asynchronous test case.
+     * @param target The target that will listen for the dispatched <code>signalName</code>.
+     * @param signalName The name of the signal being listend for by the <code>target</code>.
+     * @param timeout The length of time, in milliseconds, before the calling the <code>timeoutHandler</code>
+     * if the <code>signalName</code> signal is not dispatched.
+     * @param timeoutHandler The function that will be executed if the <code>target</code> does not
+     * receive expected <code>signalName</code> before the <code>timeout</code> time is reached.
+     */
+    public static function failOnSignal( testCase : Object, signalInstance : *,
+        timeout : int = 500, timeoutHandler : Function = null ) : void {
+        var asyncHandlingStatement : IAsyncHandlingStatement = AsyncLocator.getCallableForTest( testCase );
+        var handler : Function;
+        
+        handler = asyncHandlingStatement.asyncSignalHandler( asyncHandlingStatement.failOnComplete,
+            timeout, null, asyncHandlingStatement.pendUntilComplete );
+        signalInstance.add( handler );
     }
     
     /**
@@ -164,6 +215,36 @@ public class Async {
     }
     
     /**
+     * Allow you to continue a test while waiting for a given asynchronous signal to occur. Normally a test ends when you reach the method closure at the end
+     * of your test method. This signal tells the FlexUnit framework to continue that test pending the dispatch of an signal by the <code>target</code> of an
+     * signal named <code>signalInstance</code>. If that signal does not occur within the <code>timeOut</code> then the timeout handler (if specified) will be called,
+     * else the test will be declared a failure.
+     *
+     * @param testCase The current asynchronous test case.
+     * @param target The target that will listen for the dispatched <code>signalInstance</code>.
+     * @param signalInstance The instance of the signal being listened for. This is listed without class,
+     * because there is no dependency on the signal library.
+     * @param signalHandler The function that will be executed if the the <code>target</code> dispatches an signal with
+     * a name of <code>signalInstance</code> within the provided <code>timemout</code> period.
+     * @param timeout The length of time, in milliseconds, before the calling the <code>timeoutHandler</code>
+     * if the <code>signalInstance</code> signal is not dispatched.
+     * @param passThroughData An Object that can be given information about the current test, this information will be
+     * available to both the <code>signalHandler</code> and <code>timeoutHandler</code>.
+     * @param timeoutHandler The function that will be executed if the <code>target</code> does not
+     * receive expected <code>signalInstance</code> before the <code>timeout</code> time is reached.
+     */
+    public static function handleSignal( testCase : Object, signalInstance : *,
+        signalHandler : Function, timeout : int = 500, passThroughData : Object = null,
+        timeoutHandler : Function = null ) : void {
+        var asyncHandlingStatement : IAsyncHandlingStatement = AsyncLocator.getCallableForTest( testCase );
+        var handler : Function;
+        
+        handler = asyncHandlingStatement.asyncSignalHandler( signalHandler, timeout,
+            passThroughData, timeoutHandler );
+        signalInstance.add( handler );
+    }
+    
+    /**
      * This method works similarly to the handleEvent, however, whereas the handleEvent does all of the work to handle a specific event,
      * this method simply returns an eventHandler (function) which you use within your own addEventListener() methods.
      *
@@ -183,6 +264,18 @@ public class Async {
             timeoutHandler );
     }
     
+    /**
+     * This method works similarly to the handleSignal, however, whereas the handleSignal does all of the work to handle a specific signal,
+     * this method simply returns an signalHandler (function) which you use within your own addEventListener() methods.
+     *
+     * @param testCase The current asynchronous test case.
+     * @param signalHandler The function that will be executed if the <code>timemout</code> period has not been reached.
+     * @param timeout The length of time, in milliseconds, before the calling the <code>timeoutHandler</code>
+     * if the <code>signalName</code> signal is not dispatched.
+     * @param passThroughData An Object that can be given information about the current test, this information will be
+     * available to both the <code>signalHandler</code> and <code>timeoutHandler</code>.
+     * @param timeoutHandler The function that will be executed if the <code>timeout</code> period is reached.
+     */
     public static function asyncSignalHandler( testCase : Object, signalHandler : Function,
         timeout : int, passThroughData : Object = null, timeoutHandler : Function = null ) : Function {
         var asyncHandlingStatement : IAsyncHandlingStatement = AsyncLocator.getCallableForTest( testCase );
