@@ -467,6 +467,10 @@ public class ExpectAsync extends AsyncStatementBase implements IAsyncStatement, 
     public function pendUntilComplete( event : Event, passThroughData : Object = null ) : void {
     }
     
+    public function pendUntilSignalComplete( signalInstance : * ) : Function {
+        return AsyncSignalHandler.pendUntilCompleteFunction( signalInstance );
+    }
+    
     /**
      * Handles the AsyncResponseEvent that is thrown by the asyncResponder.
      * It sends data to the original responder based on if it is a result or fault status.
@@ -798,10 +802,10 @@ public class ExpectAsync extends AsyncStatementBase implements IAsyncStatement, 
             false );
     }
     
-    private function removeAsyncSignalEventListeners( asyncHandler : AsyncSignalHandler ) : void {
-        asyncHandler.removeEventListener( AsyncSignalHandler.EVENT_FIRED,
+    private function removeAsyncSignalEventListeners( asyncSignalHandler : AsyncSignalHandler ) : void {
+        asyncSignalHandler.removeEventListener( AsyncSignalHandler.EVENT_FIRED,
             handleAsyncSignalEventFired, false );
-        asyncHandler.removeEventListener( AsyncSignalHandler.TIMER_EXPIRED,
+        asyncSignalHandler.removeEventListener( AsyncSignalHandler.TIMER_EXPIRED,
             handleAsyncSignalTimeOut, false );
     }
     

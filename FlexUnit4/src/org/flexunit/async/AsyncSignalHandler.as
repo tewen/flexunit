@@ -76,6 +76,61 @@ public class AsyncSignalHandler extends EventDispatcher {
      */
     protected static var TIMER_STARTED : int = 1;
     
+    public static function pendUntilCompleteFunction( signalInstance : * ) : Function {
+        switch ( signalInstance.valueClasses.length ) {
+            case 0:
+                return function() : void {
+                };
+                break;
+            case 1:
+                return function( arg1 : * ) : void {
+                };
+                break;
+            case 2:
+                return function( arg1 : *, arg2 : * ) : void {
+                };
+                break;
+            case 3:
+                return function( arg1 : *, arg2 : *, arg3 : * ) : void {
+                };
+                break;
+            case 4:
+                return function( arg1 : *, arg2 : *, arg3 : *, arg4 : * ) : void {
+                };
+                break;
+            case 5:
+                return function( arg1 : *, arg2 : *, arg3 : *, arg4 : *, arg5 : * ) : void {
+                };
+                break;
+            case 6:
+                return function( arg1 : *, arg2 : *, arg3 : *, arg4 : *, arg5 : *, arg6 : * ) : void {
+                };
+                break;
+            case 7:
+                return function( arg1 : *, arg2 : *, arg3 : *, arg4 : *, arg5 : *, arg6 : *,
+                        arg7 : * ) : void {
+                        };
+                break;
+            case 8:
+                return function( arg1 : *, arg2 : *, arg3 : *, arg4 : *, arg5 : *, arg6 : *,
+                        arg7 : *, arg8 : * ) : void {
+                        };
+                break;
+            case 9:
+                return function( arg1 : *, arg2 : *, arg3 : *, arg4 : *, arg5 : *, arg6 : *,
+                        arg7 : *, arg8 : *, arg9 : * ) : void {
+                        };
+                break;
+            case 10:
+                return function( arg1 : *, arg2 : *, arg3 : *, arg4 : *, arg5 : *, arg6 : *,
+                        arg7 : *, arg8 : *, arg9 : *, arg10 : * ) : void {
+                        };
+                break;
+            default:
+                throw new Error( "You have more than 10 parameters in your handler. You are clearly out of your mind." );
+        }
+    }
+    
     /**
      * Constructor.
      *

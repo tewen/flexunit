@@ -132,6 +132,8 @@ public interface IAsyncHandlingStatement {
      */
     function pendUntilComplete( event : Event, passThroughData : Object = null ) : void;
     
+    
+    function pendUntilSignalComplete( signalInstance : * ) : Function;
     /**
      * Handles the next steps in a <code>SequenceRunner</code>.
      *
