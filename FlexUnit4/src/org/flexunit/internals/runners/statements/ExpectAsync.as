@@ -373,6 +373,11 @@ public class ExpectAsync extends AsyncStatementBase implements IAsyncStatement, 
         sendComplete( new AssertionError( message ) );
     }
     
+    public function failOnSignalComplete( signalInstance : * ) : Function {
+        return AsyncSignalHandler.genericSignalFunction( signalInstance,
+            actualFailOnSignalComplete );
+    }
+    
     /**
      *
      * @param event
@@ -468,7 +473,16 @@ public class ExpectAsync extends AsyncStatementBase implements IAsyncStatement, 
     }
     
     public function pendUntilSignalComplete( signalInstance : * ) : Function {
-        return AsyncSignalHandler.pendUntilCompleteFunction( signalInstance );
+        return AsyncSignalHandler.genericSignalFunction( signalInstance );
+    }
+    
+    protected function actualFailOnSignalComplete( signalInstance : * ) : void {
+        var message : String = "Unexpected signal received ";
+        if ( signalInstance ) {
+            message += String( signalInstance );
+        }
+        
+        sendComplete( new AssertionError( message ) );
     }
     
     /**

@@ -148,8 +148,8 @@ public class Async {
         var asyncHandlingStatement : IAsyncHandlingStatement = AsyncLocator.getCallableForTest( testCase );
         var handler : Function;
         
-        handler = asyncHandlingStatement.asyncSignalHandler( asyncHandlingStatement.failOnComplete,
-            timeout, null, asyncHandlingStatement.pendUntilComplete );
+        handler = asyncHandlingStatement.asyncSignalHandler( asyncHandlingStatement.failOnSignalComplete( signalInstance ),
+            timeout, null, asyncHandlingStatement.pendUntilSignalComplete( signalInstance ) );
         signalInstance.add( handler );
     }
     

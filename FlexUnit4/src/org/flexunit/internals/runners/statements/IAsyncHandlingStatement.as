@@ -124,6 +124,9 @@ public interface IAsyncHandlingStatement {
      * @param passThroughData An Object that contains information to pass to the handler.
      */
     function failOnComplete( event : Event, passThroughData : Object ) : void;
+    
+    
+    function failOnSignalComplete( signalInstance : * ) : Function;
     /**
      * A handler method that is called in order to wait once an asynchronous event has been dispatched.
      *
