@@ -81,12 +81,13 @@ public class AsyncSignalHandler extends EventDispatcher {
         if ( signalInstance.valueClasses.length > 10 )
             throw new Error( "You have more than 10 parameters in your handler. You are clearly out of your mind." );
         
-        return function( arg1 : * = null, arg2 : * = null, arg3 : * = null, arg4 : * = null,
-                arg5 : * = null, arg6 : * = null, arg7 : * = null, arg8 : * = null,
-                arg9 : * = null, arg10 : * = null ) : void {
-                    if ( runFunction != null )
-                        runFunction.apply();
-                };
+        else if ( runFunction != null )
+            return function( ... valueClasses ) : void {
+                runFunction.apply( null, [ signalInstance ] );
+            };
+        
+        return function( ... valueClasses ) : void {
+        };
     }
     
     /**

@@ -98,6 +98,8 @@ public class Async {
         
         handler = asyncHandlingStatement.asyncSignalHandler( asyncHandlingStatement.pendUntilSignalComplete( signalInstance ),
             timeout, null, timeoutHandler );
+        
+        signalInstance.strict = false;
         signalInstance.add( handler );
     }
     
@@ -150,6 +152,8 @@ public class Async {
         
         handler = asyncHandlingStatement.asyncSignalHandler( asyncHandlingStatement.failOnSignalComplete( signalInstance ),
             timeout, null, asyncHandlingStatement.pendUntilSignalComplete( signalInstance ) );
+        
+        signalInstance.strict = false;
         signalInstance.add( handler );
     }
     
